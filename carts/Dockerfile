@@ -1,18 +1,16 @@
-#syntax=docker/dockerfile:experimental
-FROM maven:3-jdk-8 as build
+FROM maven:3-jdk-11 as build
 WORKDIR /tmp
 
 copy src /tmp/src
 copy pom.xml /tmp/
+RUN mvn -DskipTests package
 
-run --mount=type=cache,id=maven,target=/root/.m2,sharing=shared mvn clean package
-
-from adoptopenjdk/openjdk8:alpine
+FROM weaveworksdemos/msd-java:jre-latest
 
 COPY --from=build /tmp/target/carts.jar /carts.jar
 
 run chmod a+rx ./carts.jar
-
+RUN     chown -R ${SERVICE_USER}:${SERVICE_GROUP} ./carts.jar
 USER ${SERVICE_USER}
 
 ARG BUILD_DATE
@@ -30,4 +28,5 @@ LABEL org.label-schema.vendor="Weaveworks" \
   org.label-schema.schema-version="1.0"
 
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/urandom","-jar","./carts.jar", "--port=80"]
+ENTRYPOINT ["/usr/local/bin/java.sh","-jar","./carts.jar", "--port=80"]
+
