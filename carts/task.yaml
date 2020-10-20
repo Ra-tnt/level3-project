@@ -1,22 +1,36 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: mvn
+  name: build-push
 spec:
   params:
-  - name: GOALS
-    description: The Maven goals to run
-    type: array
-    default: ["package"]
+    - name: pathToDockerFile
+      type: string
+      description: The path to the dockerfile to build
+      default: $(resources.inputs.docker-source.path)/carts/Dockerfile
+    - name: pathToContext
+      type: string
+      description: |
+        The build context used by Kaniko
+        (https://github.com/GoogleContainerTools/kaniko#kaniko-build-contexts)
+      default: $(resources.inputs.docker-source.path)/carts
   resources:
     inputs:
-    - name: source
-      type: git
+      - name: docker-source
+        type: git
+    outputs:
+      - name: builtImage
+        type: image
   steps:
-    - name: mvn
-      image: gcr.io/cloud-builders/mvn
-      workingDir: /workspace/source
-      command: ["/usr/bin/mvn"]
+    - name: build-and-push
+      image: gcr.io/kaniko-project/executor:v0.17.1
+      # specifying DOCKER_CONFIG is required to allow kaniko to detect docker credential
+      env:
+        - name: "DOCKER_CONFIG"
+          value: "/tekton/home/.docker/"
+      command:
+        - /kaniko/executor
       args:
-        - -Dmaven.repo.local=$(workspaces.maven-repo.path)
-        - "$(params.GOALS)"
+        - --dockerfile=$(params.pathToDockerFile)
+        - --destination=$(resources.outputs.builtImage.url)
+        - --context=$(params.pathToContext)

@@ -1,13 +1,22 @@
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
-  name: mvn-build-runner
+  name: build-push-run
 spec:
+  serviceAccountName: raghad-dockerhub
   taskRef:
-    name: mvn
+    name: build-push
+  params:
+    - name: pathToDockerFile
+      value: carts/Dockerfile
+    - name: pathToContext
+      value: /carts
   resources:
     inputs:
-    - name: source
-      resourceRef:
-        name: source
-
+      - name: docker-source
+        resourceRef:
+          name: source
+    outputs:
+      - name: builtImage
+        resourceRef:
+          name: result
