@@ -18,9 +18,13 @@ spec:
     inputs:
       - name: docker-source
         type: git
+        resourceRef:
+          name: source
     outputs:
       - name: builtImage
         type: image
+        resourceRef:
+          name: result
   steps:
     - name: build-and-push
       image: gcr.io/kaniko-project/executor:v0.17.1
