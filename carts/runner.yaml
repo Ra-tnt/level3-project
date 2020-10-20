@@ -8,10 +8,10 @@ spec:
     name: build-push-cart
   params:
     - name: IMAGE
-      value: "raghadq/carts"
+      value: "raghadq/carts:testing"
   resources:
     inputs:
-      - name: source
+      - name: level3-project
         resourceRef:
           name: source
 #    outputs:

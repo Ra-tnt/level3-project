@@ -5,7 +5,7 @@ metadata:
 spec:
   resources:
     inputs:
-    - name: source
+    - name: level3-project
       type: git
   params:
   - name: IMAGE
@@ -21,15 +21,13 @@ spec:
   - name: BUILDER_IMAGE
     description: The image on which builds will run
     default: gcr.io/kaniko-project/executor:latest
-#  workspaces:
-#  - name: source
   results:
   - name: IMAGE-DIGEST
     description: Digest of the image just built.
 
   steps:
   - name: build-and-push
-    workingDir: workspace/carts
+    workingDir: /workspace/level3-project/carts
     image: $(params.BUILDER_IMAGE)
     # specifying DOCKER_CONFIG is required to allow kaniko to detect docker credential
     # https://github.com/tektoncd/pipeline/pull/706
