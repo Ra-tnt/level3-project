@@ -5,18 +5,16 @@ metadata:
 spec:
   serviceAccountName: raghad-dockerhub
   taskRef:
-    name: build-push
+    name: build-push-cart
   params:
-    - name: pathToDockerFile
-      value: carts/Dockerfile
-    - name: pathToContext
-      value: /carts
+    - name: IMAGE
+      value: "raghadq/carts"
   resources:
     inputs:
-      - name: docker-source
+      - name: source
         resourceRef:
           name: source
-    outputs:
-      - name: builtImage
-        resourceRef:
-          name: result
+#    outputs:
+#      - name: builtImage
+#        resourceRef:
+#          name: result
