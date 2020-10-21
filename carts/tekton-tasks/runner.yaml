@@ -1,0 +1,20 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: build-push-run
+spec:
+  serviceAccountName: raghad-dockerhub
+  taskRef:
+    name: build-push-cart
+  params:
+    - name: IMAGE
+      value: "raghadq/carts:testing"
+  resources:
+    inputs:
+      - name: level3-project
+        resourceRef:
+          name: source
+#    outputs:
+#      - name: builtImage
+#        resourceRef:
+#          name: result
