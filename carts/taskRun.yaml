@@ -3,6 +3,7 @@ kind: TaskRun
 metadata:
   name: carts-deploy-run
 spec:
+  serviceAccountName: sa
   taskRef:
     name: carts-deploy
   params:
