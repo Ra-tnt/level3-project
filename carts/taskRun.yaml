@@ -2,42 +2,55 @@ apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
   name: carts-deploy-run
-  namespace: test
 spec:
   taskRef:
     name: carts-deploy
-  resources:
-    inputs:
-      - name: level3-project
-        resourceRef:
-          name: source
   params:
-  - name: CONTEXT
-    value: workspace/level3-project/carts
-  - name: action
-    value: create
-  - name: success-condition
-    value: status.phase == Running
-  - name: failure-condition
-    value: status.phase in (Failed, Error)
-  - name: output
-    value: |
-      - name: job-name
-        valueFrom: '{.metadata.name}'
-      - name: job-namespace
-        valueFrom: '{.metadata.namespace}' 
-  - name: set-ownerreference
-    value: "true"
-  - name: manifest
-    value: |
-      apiVersion: v1
-      kind: Pod
-      metadata:
-        name: carts
-        labels:
-          app: carts
-      spec:
-        containers:
-        - name: carts-container
-          image: raghadq/carts:testing
-          command: ['sh', '-c', 'echo Hello Kubernetes! && sleep 30']
+    - name: action
+      value: create
+    - name: output
+      value: |
+        - name: job-name
+          valueFrom: '{.metadata.name}'
+        - name: job-namespace
+          valueFrom: '{.metadata.namespace}'
+    - name: set-ownerreference
+      value: "false"
+    - name: manifest
+      value: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: carts
+          namespace: test
+          labels:
+            app: carts
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: carts
+          template:
+            metadata:
+              labels:
+                app: carts
+            spec:
+              containers:
+              - name: carts
+                image: raghadq/carts:testing
+                ports:
+                - containerPort: 80
+
+#        apiVersion: v1
+#        kind: Pod
+#        metadata:
+#          generateName: carts
+#          labels:
+#            app: carts
+#        spec:
+#          containers:
+#          - name: carts
+#            image: raghadq/carts:testing
+#            ports:
+#            - containerPort: 80
+#              protocol: TCP

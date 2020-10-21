@@ -3,10 +3,9 @@ kind: ClusterRole
 metadata:
   creationTimestamp: null
   name: admin
-  namespace: test
 rules:
 - apiGroups:
-  - ""
+  - "rbac.authorization.k8s.io"
   resources:
   - pods
   - services
