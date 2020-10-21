@@ -1,0 +1,57 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: carts-deploy-run
+spec:
+  serviceAccountName: sa
+  taskRef:
+    name: carts-deploy
+  params:
+    - name: action
+      value: create
+    - name: output
+      value: |
+        - name: job-name
+          valueFrom: '{.metadata.name}'
+        - name: job-namespace
+          valueFrom: '{.metadata.namespace}'
+    - name: set-ownerreference
+      value: "false"
+    - name: manifest
+      value: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: carts
+          namespace: test
+          labels:
+            app: carts
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: carts
+          template:
+            metadata:
+              labels:
+                app: carts
+            spec:
+              containers:
+              - name: carts
+                image: raghadq/carts:testing
+                ports:
+                - containerPort: 80
+
+#        apiVersion: v1
+#        kind: Pod
+#        metadata:
+#          generateName: carts
+#          labels:
+#            app: carts
+#        spec:
+#          containers:
+#          - name: carts
+#            image: raghadq/carts:testing
+#            ports:
+#            - containerPort: 80
+#              protocol: TCP
