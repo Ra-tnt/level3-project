@@ -8,6 +8,7 @@ spec:
       type: git
   params:
     - name: imagename
+      default: "raghadq/carts:testing"
     - name: dockerfilepath
       default: /workspace/level3-project/carts/Dockerfile
     - name: contextpath
@@ -35,3 +36,7 @@ spec:
         value: "$(params.extraargsvalue)"
       - name: BUILDER_IMAGE
         value: "$(params.builderimage)"
+  results:
+    - name: imagedigest
+      description: result of image digest
+      value: $(tasks.build-docker-image.results.IMAGE-DIGEST)

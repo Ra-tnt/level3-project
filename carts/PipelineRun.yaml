@@ -5,27 +5,31 @@ metadata:
 spec:
   pipelineRef:
     name: carts-pipeline
-  serviceAccountName: sa
+  serviceAccountName: raghad-dockerhub
   resources:
-    - name: level3-project
-      resourceRef:
-      - name: source
-  spec:
-    params:
-    - name: pl-param-x
-      value: "100"
-    - name: pl-param-y
-      value: "500"
+  - name: level3-project
+    resourceSpec:
+      type: git
+      params:
+      - name: revision
+        value: main
+      - name: url
+        value: https://github.com/Ra-tnt/level3-project
+#  params:
+#  - name: imagename 
+#    value: "raghadq/carts:testing"
+# - name: pl-param-y
+#   value: "500"
 
 
-params:
-    - name: imagename
-    - name: dockerfilepath
-      default: /workspace/level3-project/carts/Dockerfile
-    - name: contextpath
-      default: /workspace/level3-project/carts
-    - name: extraargsvalue
-      default: ""
-    - name: builderimage
-      default: gcr.io/kaniko-project/executor:latest
+#params:
+#    - name: imagename
+#    - name: dockerfilepath
+#      default: /workspace/level3-project/carts/Dockerfile
+#    - name: contextpath
+#     default: /workspace/level3-project/carts
+#    - name: extraargsvalue
+#      default: ""
+#    - name: builderimage
+#      default: gcr.io/kaniko-project/executor:latest
 
