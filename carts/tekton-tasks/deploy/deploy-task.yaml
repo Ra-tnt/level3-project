@@ -6,7 +6,6 @@ metadata:
     app.kubernetes.io/version: "0.1"
   annotations:
     tekton.dev/pipelines.minVersion: "0.12.1"
-    tekton.dev/tags: deploy, delete
 spec:
   description: >-
     This Task deploys (or delete) a Kubernetes resource (pod). It uses
@@ -14,16 +13,16 @@ spec:
   params:
   - name: action
     description: Action on the resource
-  - name: merge-strategy
-    default: strategic
-    description: Merge strategy when using action  patch
+#  - name: merge-strategy
+#    default: strategic
+#    description: Merge strategy when using action  patch
   - name: manifest
     description: Content of the resource to deploy
   - name: output
     default: ""
     description: An express to retrieval data from resource.
-  - name: set-ownerreference
-    default: "false"
+#  - name: set-ownerreference
+#    default: "false"
     description: Enable set owner reference for created resource.
   - name: image
     default: index.docker.io/aipipeline/kubeclient:v0.0.2  # it is huge
@@ -33,30 +32,30 @@ spec:
     image: $(params.image)
     args:
       - --action=$(params.action)
-      - --merge-strategy=$(params.merge-strategy)
+#      - --merge-strategy=$(params.merge-strategy)
       - --manifest=$(params.manifest)
       - --output=$(params.output)
-      - --set-ownerreference=$(params.set-ownerreference)
-    env:
-      - name: POD_NAME
-        valueFrom:
-          fieldRef:
-            fieldPath: metadata.name
-      - name: POD_NAMESPACE
-        valueFrom:
-          fieldRef:
-            fieldPath: metadata.namespace
-      - name: POD_UID
-        valueFrom:
-          fieldRef:
-            fieldPath: metadata.uid
-  - name: echo
-    image: busybox
-    script: |
-      #!/bin/sh
-      if [ -e /tekton/results/job-name ]
-      then
-          cat /tekton/results/job-name
-      else
-          echo "no output file found"
-      fi
+#      - --set-ownerreference=$(params.set-ownerreference)
+#    env:
+#      - name: POD_NAME
+#        valueFrom:
+#          fieldRef:
+#            fieldPath: metadata.name
+#      - name: POD_NAMESPACE
+#        valueFrom:
+#          fieldRef:
+#            fieldPath: metadata.namespace
+#      - name: POD_UID
+#        valueFrom:
+#          fieldRef:
+#            fieldPath: metadata.uid
+#  - name: echo
+#    image: busybox
+#    script: |
+#      #!/bin/sh
+#      if [ -e /tekton/results/job-name ]
+#      then
+#          cat /tekton/results/job-name
+#      else
+#          echo "no output file found"
+#      fi
