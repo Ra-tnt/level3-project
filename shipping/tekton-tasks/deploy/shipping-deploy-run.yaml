@@ -1,0 +1,41 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: shipping-deploy-run
+spec:
+  serviceAccountName: sa
+  taskRef:
+    name: shipping-deploy
+  params:
+    - name: action
+      value: apply
+    - name: output
+      value: |
+        - name: job-name
+          valueFrom: '{.metadata.name}'
+        - name: job-namespace
+          valueFrom: '{.metadata.namespace}'
+#    - name: set-ownerreference
+#      value: "false"
+    - name: manifest
+      value: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: shipping
+          labels:
+            app: shipping
+        spec:
+          selector:
+            matchLabels:
+              app: shipping
+          template:
+            metadata:
+              labels:
+                app: shipping
+            spec:
+              containers:
+              - name: shipping
+                image: raghadq/shipping:testing
+                ports:
+                - containerPort: 80
