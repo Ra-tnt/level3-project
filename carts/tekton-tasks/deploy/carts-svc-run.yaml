@@ -8,15 +8,15 @@ spec:
     name: carts-svc
   params:
     - name: action
-      value: create
+      value: apply
     - name: output
       value: |
         - name: svc-name
           valueFrom: '{.metadata.name}'
         - name: svc-namespace
           valueFrom: '{.metadata.namespace}'
-    - name: set-ownerreference
-      value: "false"
+#    - name: set-ownerreference
+#      value: "false"
     - name: manifest
       value: |
         apiVersion: v1
