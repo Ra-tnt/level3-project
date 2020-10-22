@@ -5,20 +5,12 @@ metadata:
   name: admin
 rules:
 - apiGroups:
-  - "rbac.authorization.k8s.io"
+  - ""
   resources:
   - pods
   - services
-  - services/finalizers
-  - endpoints
-  - persistentvolumeclaims
-  - events
   - configmaps
   - configmaps/status
-  - secrets
-  - namespaces
-  - serviceaccounts
-  - pods/log
   verbs:
   - create
   - delete
@@ -34,7 +26,6 @@ rules:
   - daemonsets
   - replicasets
   - statefulsets
-  - deployments/finalizers
   verbs:
   - create
   - delete
@@ -43,15 +34,3 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - rbac.authorization.k8s.io
-  resources:
-  - clusterroles
-  - roles
-  - clusterrolebindings
-  - rolebindings
-  verbs:
-  - get
-  - create
-  - update
-  - delete  
