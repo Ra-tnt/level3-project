@@ -1,0 +1,37 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: carts-pipeline
+spec:
+  resources:
+    - name: level3-project
+      type: git
+  params:
+    - name: imagename
+    - name: dockerfilepath
+      default: /workspace/level3-project/carts/Dockerfile
+    - name: contextpath
+      default: /workspace/level3-project/carts
+    - name: extraargsvalue
+      default: ""
+    - name: builderimage
+      default: gcr.io/kaniko-project/executor:latest
+  tasks:
+    - name: build-docker-image
+      taskRef:
+        name: build-push-cart
+      resources:
+        inputs:
+          - name: level3-project
+            resource: level3-project
+      params:
+      - name: IMAGE
+        value: "$(params.imagename)"
+      - name: DOCKERFILE
+        value: "$(params.dockerfilepath)"
+      - name: CONTEXT
+        value: "$(params.contextpath)"
+      - name: EXTRA_ARGS
+        value: "$(params.extraargsvalue)"
+      - name: BUILDER_IMAGE
+        value: "$(params.builderimage)"

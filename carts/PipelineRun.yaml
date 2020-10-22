@@ -1,0 +1,31 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: carts-pipelinerun
+spec:
+  pipelineRef:
+    name: carts-pipeline
+  serviceAccountName: sa
+  resources:
+    - name: level3-project
+      resourceRef:
+      - name: source
+  spec:
+    params:
+    - name: pl-param-x
+      value: "100"
+    - name: pl-param-y
+      value: "500"
+
+
+params:
+    - name: imagename
+    - name: dockerfilepath
+      default: /workspace/level3-project/carts/Dockerfile
+    - name: contextpath
+      default: /workspace/level3-project/carts
+    - name: extraargsvalue
+      default: ""
+    - name: builderimage
+      default: gcr.io/kaniko-project/executor:latest
+
