@@ -1,0 +1,464 @@
+history
+history
+    1  2020-10-21 20:35:19 cd git/k8s-sandbox/
+    2  2020-10-21 20:35:29 make up install-cicd 
+    3  2020-10-21 20:38:28 cd ..
+    4  2020-10-21 20:39:09 git clone https://github.com/Ra-tnt/level3-project
+    5  2020-10-21 20:40:16 cd level3-project/
+    6  2020-10-21 20:40:35 cd carts/
+    7  2020-10-21 20:40:44 cat tekton-tasks/runner.yaml 
+    8  2020-10-21 20:41:05 vim ls
+    9  2020-10-21 20:41:40 git checkout tekton-testing 
+   10  2020-10-21 20:41:48 vim taskRun.yaml 
+   11  2020-10-21 20:42:08 vim serviceAccount.yaml 
+   12  2020-10-21 20:43:17 k create ns test
+   13  2020-10-21 20:43:30 k create ns cicd
+   14  2020-10-21 20:44:30 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   15  2020-10-21 20:45:33 tkn pipeline describe carts-deploy-run
+   16  2020-10-21 20:45:42 tkn taskrun describe carts-deploy-run
+   17  2020-10-21 20:45:56 tkn taskrun describe carts-deploy-run -n test
+   18  2020-10-21 20:46:32 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   19  2020-10-21 20:46:43 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   20  2020-10-21 20:46:46 tkn taskrun describe carts-deploy-run -n test
+   21  2020-10-21 20:48:12 tkn taskrun logs --last -f -n test
+   22  2020-10-21 20:48:37 k get all -n test
+   23  2020-10-21 20:49:29 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   24  2020-10-21 20:49:32 k get all -n test
+   25  2020-10-21 20:50:24 k apply -f carts-svc.yaml 
+   26  2020-10-21 20:50:27 k get all -n test
+   27  2020-10-21 20:50:40 k delete -f carts-svc.yaml 
+   28  2020-10-21 20:50:49 vim carts-svc.yaml 
+   29  2020-10-21 20:51:04 k apply -f carts-svc.yaml -n test
+   30  2020-10-21 20:51:07 k get all -n test
+   31  2020-10-21 21:01:23 git add .
+   32  2020-10-21 21:02:02 git config --global --edit
+   33  2020-10-21 21:02:55 git commit -m "working now"
+   34  2020-10-21 21:03:38 git checkout main
+   35  2020-10-21 21:04:13 git merge tekton-testing 
+   36  2020-10-21 21:04:33 git push
+   37  2020-10-21 21:12:59 git checkout tekton-testing 
+   38  2020-10-21 21:13:36 k delete all -n test
+   39  2020-10-21 21:13:45 k delete --all -n test
+   40  2020-10-21 21:18:55 k get all -n test
+   41  2020-10-21 21:19:26 k delete -n test pod
+   42  2020-10-21 21:19:29 k delete -n test pods
+   43  2020-10-21 21:19:36 k delete -n test --all pods
+   44  2020-10-21 21:20:22 k get all -n test
+   45  2020-10-21 21:20:43 k delete -n test --all deployment, pod
+   46  2020-10-21 21:20:49 k delete -n test --all deployment
+   47  2020-10-21 21:20:54 k delete -n test --all pod
+   48  2020-10-21 21:21:31 k delete -n test --all service
+   49  2020-10-21 21:21:36 k delete -n test --all replicaset
+   50  2020-10-21 21:21:45 k get all -n test
+   51  2020-10-21 21:22:51 vim carts-svc.yaml 
+   52  2020-10-21 21:23:10 vim taskRun.yaml 
+   53  2020-10-21 21:26:19 vim carts-svc.yaml 
+   54  2020-10-21 21:27:21 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   55  2020-10-21 21:27:31 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   56  2020-10-21 21:27:40 tkn taskrun logs --last -f -n test
+   57  2020-10-21 21:28:19 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   58  2020-10-21 21:28:41 vim taskRun.yaml 
+   59  2020-10-21 21:29:17 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   60  2020-10-21 21:29:20 tkn taskrun logs --last -f -n test
+   61  2020-10-21 21:29:58 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   62  2020-10-21 21:30:05 git checkout main 
+   63  2020-10-21 21:30:35 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   64  2020-10-21 21:30:42 tkn taskrun logs --last -f -n test
+   65  2020-10-21 21:30:55 git pull
+   66  2020-10-21 21:32:06 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   67  2020-10-21 21:32:14 cat taskRun.yaml 
+   68  2020-10-21 21:32:30 git checkout tekton-testing 
+   69  2020-10-21 21:32:54 vim taskRun.yaml 
+   70  2020-10-21 21:33:32 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   71  2020-10-21 21:33:36 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   72  2020-10-21 21:33:41 tkn taskrun logs --last -f -n test
+   73  2020-10-21 21:34:00 k get all -n test
+   74  2020-10-21 21:34:44 k delete all -n test deploy
+   75  2020-10-21 21:34:56 k delete -n test all deploy
+   76  2020-10-21 21:35:00 k delete -n test --all deploy
+   77  2020-10-21 21:35:06 k delete -n test --all pod
+   78  2020-10-21 21:35:38 k get all -n test
+   79  2020-10-21 21:35:46 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   80  2020-10-21 21:35:50 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   81  2020-10-21 21:35:56 tkn taskrun logs --last -f -n test
+   82  2020-10-21 21:36:25 k delete -n test --all deploy
+   83  2020-10-21 21:36:29 k delete -n test --all pod
+   84  2020-10-21 21:37:55 vim taskRun.yaml 
+   85  2020-10-21 21:39:09 vim deploy-task.yaml 
+   86  2020-10-21 22:47:16 vim taskRun.yaml 
+   87  2020-10-21 22:51:06 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   88  2020-10-21 22:51:13 tkn taskrun logs --last -f -n test
+   89  2020-10-21 22:51:30 vim taskRun.yaml 
+   90  2020-10-21 22:51:55 k get all -n test
+   91  2020-10-21 22:52:03 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   92  2020-10-21 22:53:01 vim clusterRole.yaml 
+   93  2020-10-21 22:53:37 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   94  2020-10-21 22:53:40 tkn taskrun logs --last -f -n test
+   95  2020-10-21 22:53:55 k get all -n test
+   96  2020-10-21 22:54:47 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   97  2020-10-21 22:54:50 k get all -n test
+   98  2020-10-21 22:55:06 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+   99  2020-10-21 22:55:08 k get all -n test
+  100  2020-10-21 22:55:26 k delete -n test --all svc
+  101  2020-10-21 22:55:45 vim deploy-task.yaml 
+  102  2020-10-21 22:58:44 cp deploy-task.yaml svc-task.yaml
+  103  2020-10-21 22:58:52 vim svc-task.yaml 
+  104  2020-10-21 22:59:14 vim deploy-task.yaml 
+  105  2020-10-21 23:00:22 cp taskRun.yaml taskRun-svc.yaml
+  106  2020-10-21 23:00:28 vim taskRun-svc.yaml 
+  107  2020-10-21 23:00:54 vim taskRun.yaml 
+  108  2020-10-21 23:01:29 k get all -n test
+  109  2020-10-21 23:01:43 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  110  2020-10-21 23:01:50 tkn taskrun logs --last -f -n test
+  111  2020-10-21 23:02:24 k apply -f svc-task.yaml -f taskRun-svc.yaml -n test
+  112  2020-10-21 23:02:27 tkn taskrun logs --last -f -n test
+  113  2020-10-21 23:02:41 k get all -n test
+  114  2020-10-21 23:04:51 k delete --all deply -n test
+  115  2020-10-21 23:04:56 k delete --all deploy -n test
+  116  2020-10-21 23:05:03 k delete --all svc -n test
+  117  2020-10-21 23:05:10 k delete --all pod -n test
+  118  2020-10-21 23:08:17 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  119  2020-10-21 23:09:55 git add .
+  120  2020-10-21 23:10:10 git commit -m "working svc now"
+  121  2020-10-21 23:10:13 git push
+  122  2020-10-21 23:10:42 vim newway.yaml
+  123  2020-10-21 23:25:02 kubectl apply -f newway.yaml -n cicd
+  124  2020-10-21 23:26:35 tkn task start carts-deploy --dry-run -n cicd
+  125  2020-10-21 23:27:46 tkn task start carts-deploy
+  126  2020-10-21 23:28:05 tkn task start carts-deploy -n cicd
+  127  2020-10-21 23:28:15 tkn taskrun logs carts-deploy-run-vzxng -f -n cicd
+  128  2020-10-21 23:28:53 kubectl create -f taskRun-hello.yaml -n tekton-pipeline
+  129  2020-10-21 23:29:37 kubectl create -f newway.yaml -n cicd
+  130  2020-10-21 23:33:07 k delete -f newway.yaml -n cicd
+  131  2020-10-21 23:34:27 k delete taskrun -n cicd carts-deploy-run-vzxng
+  132  2020-10-22 01:38:14 vim clusterRole.yaml 
+  133  2020-10-22 01:39:14 vim clusterrole.yaml
+  134  2020-10-22 01:39:51 vim clusterRole.yaml 
+  135  2020-10-22 01:40:21 vim clusterrole.yaml
+  136  2020-10-22 01:41:51 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  137  2020-10-22 01:43:12 vim deploy-task.yaml 
+  138  2020-10-22 01:44:11 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  139  2020-10-22 01:44:26 tkn taskrun logs carts-deploy-run-vzxng -f -n cicd
+  140  2020-10-22 01:44:35 tkn taskrun logs carts-deploy-run -f -n test
+  141  2020-10-22 01:44:53 k get all -n test
+  142  2020-10-22 01:45:33 k delete --all deploy -n test
+  143  2020-10-22 01:45:40 k delete --all svc -n test
+  144  2020-10-22 01:45:50 k delete --all pod -n test
+  145  2020-10-22 01:46:23 vim deploy-task.yaml 
+  146  2020-10-22 01:46:47 vim taskRun
+  147  2020-10-22 01:46:54 vim taskRun.yaml 
+  148  2020-10-22 01:47:12 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  149  2020-10-22 01:47:21 vim taskRun.yaml 
+  150  2020-10-22 01:47:56 vim deploy-task.yaml 
+  151  2020-10-22 01:49:00 vim taskRun.yaml 
+  152  2020-10-22 01:49:27 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  153  2020-10-22 01:49:37 tkn taskrun logs carts-deploy-run -f -n test
+  154  2020-10-22 01:49:51 k get all -n test
+  155  2020-10-22 01:50:10 vim taskRun.yaml 
+  156  2020-10-22 01:50:51 vim deploy-task.yaml 
+  157  2020-10-22 01:51:31 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  158  2020-10-22 01:51:35 k get all -n test
+  159  2020-10-22 01:51:52 k delete --all svc -n test
+  160  2020-10-22 01:51:56 k delete --all deploy -n test
+  161  2020-10-22 01:52:00 k delete --all pod -n test
+  162  2020-10-22 01:52:33 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  163  2020-10-22 01:52:39 tkn taskrun logs carts-deploy-run -f -n test
+  164  2020-10-22 01:52:58 k get all -n test
+  165  2020-10-22 01:53:26 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  166  2020-10-22 01:53:28 k get all -n test
+  167  2020-10-22 01:53:34 k delete --all deploy -n test
+  168  2020-10-22 01:53:38 k delete --all pod -n test
+  169  2020-10-22 01:54:21 vim deploy-task.yaml 
+  170  2020-10-22 01:55:52 vim taskRun.yaml 
+  171  2020-10-22 01:56:46 vim deploy-task.yaml 
+  172  2020-10-22 01:56:52 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  173  2020-10-22 01:57:00 tkn taskrun logs carts-deploy-run -f -n test
+  174  2020-10-22 01:57:10 k get all -n test
+  175  2020-10-22 01:57:19 k delete --all deploy -n test
+  176  2020-10-22 01:57:23 k delete --all pod -n test
+  177  2020-10-22 01:58:33 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  178  2020-10-22 01:58:40 vim taskRun
+  179  2020-10-22 01:58:46 vim taskRun.yaml 
+  180  2020-10-22 01:59:29 vim deploy-task.yaml 
+  181  2020-10-22 02:00:00 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  182  2020-10-22 02:00:07 tkn taskrun logs carts-deploy-run -f -n test
+  183  2020-10-22 02:00:24 k get all -n test
+  184  2020-10-22 02:00:29 k delete --all deploy -n test
+  185  2020-10-22 02:00:33 k delete --all pod -n test
+  186  2020-10-22 02:01:11 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  187  2020-10-22 02:01:17 vim deploy-task.yaml 
+  188  2020-10-22 02:02:19 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  189  2020-10-22 02:02:24 tkn taskrun logs carts-deploy-run -f -n test
+  190  2020-10-22 02:03:07 tkn taskrun describe carts-deploy-run -n test
+  191  2020-10-22 02:03:22 k get all -n test
+  192  2020-10-22 02:03:34 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  193  2020-10-22 02:03:48 vim deploy-task.yaml 
+  194  2020-10-22 02:04:41 vim taskRun.yaml 
+  195  2020-10-22 02:05:20 vim deploy-task.yaml 
+  196  2020-10-22 02:05:41 vim taskRun.yaml 
+  197  2020-10-22 02:06:40 vim deploy-task.yaml 
+  198  2020-10-22 02:07:57 k get all -n test
+  199  2020-10-22 02:08:02 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  200  2020-10-22 02:08:10 tkn taskrun describe carts-deploy-run -n test
+  201  2020-10-22 02:08:17 tkn taskrun logs carts-deploy-run -f -n test
+  202  2020-10-22 02:08:32 k get all -n test
+  203  2020-10-22 02:09:03 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  204  2020-10-22 02:09:05 k get all -n test
+  205  2020-10-22 02:09:14 k delete --all deploy -n test
+  206  2020-10-22 02:09:18 k delete --all pod -n test
+  207  2020-10-22 02:20:03 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  208  2020-10-22 02:20:12 vim deploy-task.yaml 
+  209  2020-10-22 02:21:02 vim taskRun.yaml 
+  210  2020-10-22 02:21:33 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  211  2020-10-22 02:21:39 tkn taskrun logs carts-deploy-run -f -n test
+  212  2020-10-22 02:22:04 k get all -n test
+  213  2020-10-22 02:22:13 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  214  2020-10-22 02:22:31 k delete ns test
+  215  2020-10-22 02:23:22 k get all -n test
+  216  2020-10-22 02:23:38 k create ns test
+  217  2020-10-22 02:23:42 vim taskRun.yaml 
+  218  2020-10-22 02:24:08 vim deploy-task.yaml 
+  219  2020-10-22 02:24:29 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  220  2020-10-22 02:24:33 tkn taskrun logs carts-deploy-run -f -n test
+  221  2020-10-22 02:24:53 k get all -n test
+  222  2020-10-22 02:25:02 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  223  2020-10-22 02:25:09 k delete --all deploy -n test
+  224  2020-10-22 02:25:13 k delete --all pod -n test
+  225  2020-10-22 02:25:53 vim taskRun.yaml 
+  226  2020-10-22 02:26:38 vim deploy-task.yaml 
+  227  2020-10-22 02:27:49 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  228  2020-10-22 02:27:55 k get all -n test
+  229  2020-10-22 02:28:08 tkn taskrun logs carts-deploy-run-vzxng -f -n cicd
+  230  2020-10-22 02:28:18 tkn taskrun logs carts-deploy-run -f -n test
+  231  2020-10-22 02:28:25 k get all -n test
+  232  2020-10-22 02:29:29 rm newway.yaml 
+  233  2020-10-22 02:30:35 k delete --all pod -n test
+  234  2020-10-22 02:30:44 k delete --all deploy -n test
+  235  2020-10-22 02:30:52 k delete --all pod -n test
+  236  2020-10-22 02:31:32 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  237  2020-10-22 02:31:49 k apply -f serviceAccount.yaml -f clusterrole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  238  2020-10-22 02:31:57 tkn taskrun logs carts-deploy-run -f -n test
+  239  2020-10-22 02:32:15 k get all -n test
+  240  2020-10-22 02:32:20 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  241  2020-10-22 02:32:54 vim clusterrole.yaml
+  242  2020-10-22 02:33:20 vim clusterRole.yaml
+  243  2020-10-22 02:34:59 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  244  2020-10-22 02:35:03 tkn taskrun logs carts-deploy-run -f -n test
+  245  2020-10-22 02:35:21 k get all -n test
+  246  2020-10-22 02:35:55 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  247  2020-10-22 02:36:04 k apply -f serviceAccount.yaml -f clusterrole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  248  2020-10-22 02:36:32 rm clusterrole.yaml
+  249  2020-10-22 02:36:43 cd tekton-tasks/
+  250  2020-10-22 02:36:57 mkdir docker
+  251  2020-10-22 02:37:14 mv . ./docker/
+  252  2020-10-22 02:37:46 cd docker/
+  253  2020-10-22 02:38:49 mv -v ../* .
+  254  2020-10-22 02:38:55 cd ..
+  255  2020-10-22 02:39:13 mkdir deploy
+  256  2020-10-22 02:39:41 cd deploy/
+  257  2020-10-22 02:40:11 mv ../../deploy-task.yaml .
+  258  2020-10-22 02:40:36 mv ../../taskRun.yaml .
+  259  2020-10-22 02:40:46 mv ../../taskRun-svc.yaml .
+  260  2020-10-22 02:41:16 mv ../../svc-task.yaml .
+  261  2020-10-22 02:41:25 cd /../..
+  262  2020-10-22 02:41:33 cd -
+  263  2020-10-22 02:41:38 cd ..
+  264  2020-10-22 02:42:01 rm inputResource.yaml 
+  265  2020-10-22 02:42:17 ls tekton-tasks/docker/
+  266  2020-10-22 02:51:35 git add .
+  267  2020-10-22 02:51:48 git commit -m "cleaning"
+  268  2020-10-22 02:51:58 git push
+  269  2020-10-22 02:54:51 mkdir archive
+  270  2020-10-22 02:55:14 mv carts-deploy.yaml ./archive/
+  271  2020-10-22 02:55:21 mv carts-svc.yaml ./archive/
+  272  2020-10-22 02:57:04 git config --global user.name "Ra-tnt"
+  273  2020-10-22 02:57:23 git config --global user.email "Roody.tnt@gmail.com"
+  274  2020-10-22 02:57:40 git add .
+  275  2020-10-22 02:57:44 git commit -m "cleaning"
+  276  2020-10-22 02:57:47 git push
+  277  2020-10-22 03:05:06 k apply -f serviceAccount.yaml clusterRole.yaml roleBinding.yaml 
+  278  2020-10-22 03:05:29 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -n test
+  279  2020-10-22 03:06:00 k delete -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -f deploy-task.yaml -f taskRun.yaml -n test
+  280  2020-10-22 03:07:10 k delete serviceaccount sa
+  281  2020-10-22 03:07:15 k delete serviceaccount sa -n test
+  282  2020-10-22 03:08:01 k delete clusterrolebinding admin-binding -n test
+  283  2020-10-22 03:08:17 k delete clusterrole admin -n test
+  284  2020-10-22 03:08:32 k apply -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -n test
+  285  2020-10-22 03:09:02 cd tekton-tasks/
+  286  2020-10-22 03:09:31 cp deploy/deploy-task.yaml .
+  287  2020-10-22 03:09:48 cp deploy/taskRun.yaml .
+  288  2020-10-22 03:10:19 cd deploy/
+  289  2020-10-22 03:11:37 mv deploy-task.yaml carts-deploy.yaml
+  290  2020-10-22 03:12:09 mv carts-svc.yaml
+  291  2020-10-22 03:12:25 mv svc-task.yaml carts-svc.yaml
+  292  2020-10-22 03:12:59 mv taskRun-svc.yaml carts-svc-run.yaml
+  293  2020-10-22 03:13:24 mv taskRun.yaml carts-deploy-run.yaml
+  294  2020-10-22 03:13:36 cd ..
+  295  2020-10-22 03:14:04 mv ../cartsdb-deploy.yaml .
+  296  2020-10-22 03:14:13 mv ../cartsdb-svc.yaml .
+  297  2020-10-22 03:16:35 ls 
+  298  2020-10-22 03:16:56 cat cartsdb-deploy.yaml 
+  299  2020-10-22 03:17:21 vim deploy-task.yaml 
+  300  2020-10-22 03:18:00 vim taskRun.yaml 
+  301  2020-10-22 03:22:43 cat taskRun.yaml 
+  302  2020-10-22 03:24:10 mv cartsdb-svc.yaml cartsdb.yaml
+  303  2020-10-22 03:24:28 vim cartsdb-svc.yaml
+  304  2020-10-22 03:24:54 cat cartsdb.yaml 
+  305  2020-10-22 03:25:13 vim cartsdb-svc.yaml 
+  306  2020-10-22 03:26:12 cp deploy-task.yaml cartsdb-svc.yaml 
+  307  2020-10-22 03:26:30 cat cartsdb.yaml 
+  308  2020-10-22 03:26:46 vim cartsdb-svc.yaml 
+  309  2020-10-22 03:27:39 cp taskRun.yaml cartsdb-svc-run.yaml
+  310  2020-10-22 03:27:47 vim cartsdb-svc-run.yaml
+  311  2020-10-22 03:30:03 vim cartsdb.yaml 
+  312  2020-10-22 03:30:22 vim cartsdb-deploy.yaml 
+  313  2020-10-22 03:30:48 mv cartsdb-deploy.yaml ../archive/
+  314  2020-10-22 03:31:26 mv cartsdb.yaml ../archive/cartsdb-svc.yaml
+  315  2020-10-22 03:32:09 mv deploy-task.yaml cartsdb-deploy.yaml
+  316  2020-10-22 03:32:23 mv taskRun.yaml cartsdb-deploy-run.yaml
+  317  2020-10-22 03:33:30 k apply -f cartsdb-deploy.yaml cartsdb-deploy-run.yaml -n test
+  318  2020-10-22 03:33:43 k apply -f cartsdb-deploy.yaml -f cartsdb-deploy-run.yaml -n test
+  319  2020-10-22 03:33:51 k get all -n test
+  320  2020-10-22 03:34:50 k delete --all deploy -n test
+  321  2020-10-22 03:34:56 k delete --all pod -n test
+  322  2020-10-22 03:35:33 k apply -f cartsdb-deploy.yaml -f cartsdb-deploy-run.yaml -n test
+  323  2020-10-22 03:35:46 k get all -n test
+  324  2020-10-22 03:36:43 tkn taskrun logs carts-deploy-run -f -n test
+  325  2020-10-22 03:36:55 tkn taskrun logs cartsdb-deploy-run -f -n test
+  326  2020-10-22 03:37:29 k delete -f cartsdb-deploy.yaml -f cartsdb-deploy-run.yaml -n test
+  327  2020-10-22 03:37:31 k get all -n test
+  328  2020-10-22 03:37:43 k apply -f cartsdb-deploy.yaml -f cartsdb-deploy-run.yaml -n test
+  329  2020-10-22 03:37:50 tkn taskrun logs cartsdb-deploy-run -f -n test
+  330  2020-10-22 03:37:55 k get all -n test
+  331  2020-10-22 03:39:06 k apply -f cartsdb-svc.yaml -f cartsdb-svc-run.yaml -n test
+  332  2020-10-22 03:39:43 vim cartsdb-svc-run.yaml 
+  333  2020-10-22 03:40:40 k apply -f cartsdb-svc.yaml -f cartsdb-svc-run.yaml -n test
+  334  2020-10-22 03:40:46 k get all -n test
+  335  2020-10-22 03:40:55 tkn taskrun logs cartsdb-deploy-run -f -n test
+  336  2020-10-22 03:41:03 tkn taskrun logs cartsdb-svc-run -f -n test
+  337  2020-10-22 03:41:06 k get all -n test
+  338  2020-10-22 03:41:36 cd deploy/
+  339  2020-10-22 03:42:19 k apply -f carts-deploy.yaml -f carts-deploy-run.yaml -n test
+  340  2020-10-22 03:42:36 k get all -n test
+  341  2020-10-22 03:42:41 tkn taskrun logs cartsdb-svc-run -f -n test
+  342  2020-10-22 03:43:03 tkn taskrun logs carts-deploy-run -f -n test
+  343  2020-10-22 03:43:50 k delete -f carts-deploy.yaml -f carts-deploy-run.yaml -n test
+  344  2020-10-22 03:43:59 k apply -f carts-deploy.yaml -f carts-deploy-run.yaml -n test
+  345  2020-10-22 03:44:04 tkn taskrun logs carts-deploy-run -f -n test
+  346  2020-10-22 03:44:14 k get all -n test
+  347  2020-10-22 03:44:41 k apply -f carts-svc.yaml -f carts-svc-run.yaml -n test
+  348  2020-10-22 03:44:46 tkn taskrun logs carts-deploy-run -f -n test
+  349  2020-10-22 03:44:53 tkn taskrun logs carts-svc-run -f -n test
+  350  2020-10-22 03:45:10 k get all -n test
+  351  2020-10-22 03:46:48 k delete -f carts-svc.yaml -f carts-svc-run.yaml -n test
+  352  2020-10-22 03:47:07 k delete -f carts-deploy.yaml -f carts-deploy-run.yaml -n test
+  353  2020-10-22 03:47:23 k delete -f cartsdb-svc.yaml -f cartsdb-svc-run.yaml -n test
+  354  2020-10-22 03:47:59 k delete -f cartsdb-deploy.yaml -f cartsdb-deploy-run.yaml -n test
+  355  2020-10-22 03:48:07 k get all -n test
+  356  2020-10-22 03:48:32 k delete -f cartsdb-deploy.yaml -f cartsdb-deploy-run.yaml -n test
+  357  2020-10-22 03:48:43 cd ..
+  358  2020-10-22 03:48:45 k delete -f cartsdb-deploy.yaml -f cartsdb-deploy-run.yaml -n test
+  359  2020-10-22 03:49:03 k delete -f cartsdb-svc.yaml -f cartsdb-svc-run.yaml -n test
+  360  2020-10-22 03:49:07 k get all -n test
+  361  2020-10-22 03:49:36 cd -
+  362  2020-10-22 03:49:44 vim carts-svc-run.yaml 
+  363  2020-10-22 03:49:52 vim carts-svc.yaml 
+  364  2020-10-22 03:51:39 vim carts-svc-run.yaml 
+  365  2020-10-22 03:52:09 vim carts-svc.yaml 
+  366  2020-10-22 03:58:22 git add .
+  367  2020-10-22 03:58:58 cd ..
+  368  2020-10-22 03:59:30 mv cartsdb-deploy.yaml deploy/
+  369  2020-10-22 03:59:37 mv cartsdb-deploy-run.yaml deploy/
+  370  2020-10-22 03:59:44 mv cartsdb-svc-run.yaml deploy/
+  371  2020-10-22 03:59:47 mv cartsdb-svc.yaml deploy/
+  372  2020-10-22 03:59:56 cd deploy/
+  373  2020-10-22 03:59:59 git add .
+  374  2020-10-22 04:00:09 git commit -m "cleaning"
+  375  2020-10-22 04:00:27 git push
+  376  2020-10-22 04:00:40 cd ..
+  377  2020-10-22 04:00:59 cd archive/
+  378  2020-10-22 04:01:05 git add .
+  379  2020-10-22 04:01:14 git commit -m "cleaning"
+  380  2020-10-22 04:01:19 git push
+  381  2020-10-22 04:01:57 git checkout main 
+  382  2020-10-22 04:02:02 cd ..
+  383  2020-10-22 04:04:09 git merge tekton-testing 
+  384  2020-10-22 04:04:40 git add .
+  385  2020-10-22 04:05:00 git commit -m "merge into main branch"
+  386  2020-10-22 04:05:10 git push
+  387  2020-10-22 04:06:39 k get all -n test
+  388  2020-10-22 04:07:04 k delete --all deploy -n test
+  389  2020-10-22 04:07:10 k delete --all svc -n test
+  390  2020-10-22 04:07:14 k delete --all pod -n test
+  391  2020-10-22 04:08:33 k get all -n test
+  392  2020-10-22 04:08:43 k delete --all pods -n test
+  393  2020-10-22 04:08:51 k get all -n test
+  394  2020-10-22 04:10:40 cd ..
+  395  2020-10-22 04:10:46 cd shipping/
+  396  2020-10-22 04:11:33 cp -r ../carts/archive/ .
+  397  2020-10-22 04:11:48 cp -r ../carts/tekton-tasks/ .
+  398  2020-10-22 04:12:20 rm archive/*
+  399  2020-10-22 04:12:28 ls archive/
+  400  2020-10-22 04:12:41 cat shipping-deploy.yaml 
+  401  2020-10-22 04:12:47 cat shipping-svc.yaml 
+  402  2020-10-22 04:13:04 mv shipping-svc.yaml archive/
+  403  2020-10-22 04:13:10 mv shipping-deploy.yaml archive/
+  404  2020-10-22 04:13:20 cd tekton-tasks/
+  405  2020-10-22 04:13:21 ;s
+  406  2020-10-22 04:13:36 cd docker/
+  407  2020-10-22 04:13:56 vim task
+  408  2020-10-22 04:14:02 vim task.yaml 
+  409  2020-10-22 04:16:02 vim inputResource.yaml 
+  410  2020-10-22 04:16:12 vim runner.yaml 
+  411  2020-10-22 04:17:16 rm serviceAccount.yaml 
+  412  2020-10-22 04:17:24 vim runner.yaml 
+  413  2020-10-22 04:18:10 cp ../../../carts/tekton-tasks/docker/serviceAccount.yaml .
+  414  2020-10-22 04:18:21 vim serviceAccount.yaml 
+  415  2020-10-22 04:19:01 vim runner.yaml
+  416  2020-10-22 04:19:19 vim serviceAccount.yaml 
+  417  2020-10-22 04:19:28 vim inputResource.yaml 
+  418  2020-10-22 04:19:45 vim inputResource.yaml vim secrets.yaml 
+  419  2020-10-22 04:20:02 ll
+  420  2020-10-22 04:20:17 vim secrets.yaml 
+  421  2020-10-22 04:22:14 vim task.yaml 
+  422  2020-10-22 04:22:26 vim secrets.yaml 
+  423  2020-10-22 04:22:39 vim serviceAccount.yaml 
+  424  2020-10-22 04:22:46 vim runner.yaml 
+  425  2020-10-22 04:22:56 k apply -f secrets.yaml -f serviceAccount.yaml -f inputResource.yaml -f task.yaml -f runner.yaml 
+  426  2020-10-22 04:23:07 k delete -f secrets.yaml -f serviceAccount.yaml -f inputResource.yaml -f task.yaml -f runner.yaml 
+  427  2020-10-22 04:23:52 tkn taskrun logs build-push-run -f -n test
+  428  2020-10-22 04:24:13 k delete -f secrets.yaml -f serviceAccount.yaml -f inputResource.yaml -f task.yaml -f runner.yaml -n test
+  429  2020-10-22 04:24:26 k apply -f secrets.yaml -f serviceAccount.yaml -f inputResource.yaml -f task.yaml -f runner.yaml -n test
+  430  2020-10-22 04:24:31 tkn taskrun logs build-push-run -f -n test
+  431  2020-10-22 04:31:23 tkn taskrun describe build-push-run -n test
+  432  2020-10-22 04:31:52 cd ..
+  433  2020-10-22 04:32:21 cat ../archive/shipping-deploy.yaml 
+  434  2020-10-22 04:32:28 cat ../archive/shipping-svc.yaml 
+  435  2020-10-22 04:32:34 cd deploy/
+  436  2020-10-22 04:32:59 rm cartsdb*
+  437  2020-10-22 04:33:24 mv carts-deploy.
+  438  2020-10-22 04:33:42 mv carts-deploy.yaml shipping-deploy.yaml
+  439  2020-10-22 04:33:47 vim shipping-deploy.yaml 
+  440  2020-10-22 04:34:46 mv carts-deploy-run.yaml shipping-deploy-run.yaml
+  441  2020-10-22 04:34:53 vim shipping-deploy-run.yaml 
+  442  2020-10-22 04:37:56 mv carts-svc.yaml shipping-svc.yaml
+  443  2020-10-22 04:38:16 mv carts-svc-run.yaml shipping-svc-run.yaml
+  444  2020-10-22 04:38:31 vim shipping-svc.yaml
+  445  2020-10-22 04:39:22 vim shipping-svc-run.yaml
+  446  2020-10-22 04:41:00 k apply -f shipping-deploy.yaml shipping-deploy-run.yaml -n test
+  447  2020-10-22 04:41:08 k apply -f shipping-deploy.yaml -f shipping-deploy-run.yaml -n test
+  448  2020-10-22 04:41:49 tkn taskrun logs shipping-deploy-run -f -n test
+  449  2020-10-22 04:41:59 k get all -n test
+  450  2020-10-22 04:42:29 k apply -f shipping-svc.yaml -f shipping-svc-run.yaml -n test
+  451  2020-10-22 04:42:38 tkn taskrun logs shipping-deploy-run -f -n test
+  452  2020-10-22 04:42:43 k get all -n test
+  453  2020-10-22 04:45:02 cd ..
+  454  2020-10-22 04:45:08 git add .
+  455  2020-10-22 04:45:30 git commit -m "working tekton tasks"
+  456  2020-10-22 04:45:34 git push
+  457  2020-10-22 04:47:54 touch history.txt
+  458  2020-10-22 04:48:07 echo history > history.txt 
+  459  2020-10-22 04:48:20 echo history >> history.txt 
+  460  2020-10-22 04:48:47 echo "history" >> history.txt 
+  461  2020-10-22 04:48:49 cat history.txt 
+  462  2020-10-22 04:49:01 history >> history.txt 
