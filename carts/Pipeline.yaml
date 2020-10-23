@@ -1,0 +1,103 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: carts-pipeline
+spec:
+  resources:
+    - name: level3-project
+      type: git
+  params:
+    - name: imagename
+      default: "raghadq/carts:testing"
+    - name: dockerfilepath
+      default: /workspace/level3-project/carts/Dockerfile
+    - name: contextpath
+      default: /workspace/level3-project/carts
+    - name: extraargsvalue
+      default: ""
+    - name: builderimage
+      default: gcr.io/kaniko-project/executor:latest
+    - name: kubeaction
+      default: apply
+    - name: manifestfile
+      default:
+    - name: outputfile
+      default: "" 
+    - name: manifestfilesvc
+      default:
+    - name: manifestfiledb
+      default:
+    - name: manifestfiledbsvc
+      default:  
+  tasks:
+    - name: build-docker-image
+      taskRef:
+        name: build-push-cart
+      resources:
+        inputs:
+          - name: level3-project
+            resource: level3-project
+      params:
+      - name: IMAGE
+        value: "$(params.imagename)"
+      - name: DOCKERFILE
+        value: "$(params.dockerfilepath)"
+      - name: CONTEXT
+        value: "$(params.contextpath)"
+      - name: EXTRA_ARGS
+        value: "$(params.extraargsvalue)"
+      - name: BUILDER_IMAGE
+        value: "$(params.builderimage)"
+    - name: deploy-pods-db
+      taskRef:
+        name: cartsdb-deploy
+      runAfter: 
+        - build-docker-image
+      params: 
+      - name: action
+        value: "$(params.kubeaction)"
+      - name: manifest
+        value: "$(params.manifestfiledb)"
+      - name: output
+        value: "$(params.outputfile)"
+    - name: deploy-service-db
+      taskRef:
+        name: cartsdb-svc
+      runAfter:
+        - deploy-pods-db
+      params:
+      - name: action
+        value: "$(params.kubeaction)"
+      - name: manifest
+        value: "$(params.manifestfiledbsvc)"
+      - name: output
+        value: "$(params.outputfile)"
+    - name: deploy-pods
+      taskRef:
+        name: carts-deploy
+      runAfter: 
+        - deploy-service-db
+      params:
+      - name: action
+        value: "$(params.kubeaction)"
+      - name: manifest
+        value: "$(params.manifestfile)"
+      - name: output
+        value: "$(params.outputfile)"
+    - name: deploy-service
+      taskRef: 
+        name: carts-svc
+      runAfter:
+        - deploy-pods
+      params:
+      - name: action
+        value: "$(params.kubeaction)"
+      - name: manifest
+        value: "$(params.manifestfilesvc)"
+      - name: output
+        value: "$(params.outputfile)"
+      
+  results:
+    - name: imagedigest
+      description: result of image digest
+      value: $(tasks.build-docker-image.results.IMAGE-DIGEST)
