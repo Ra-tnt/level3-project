@@ -5,21 +5,50 @@ metadata:
 spec:
   pipelineRef:
     name: carts-pipeline
-  serviceAccountName: raghad-dockerhub
-  resources:
-  - name: level3-project
-    resourceSpec:
-      type: git
-      params:
-      - name: revision
-        value: main
-      - name: url
-        value: https://github.com/Ra-tnt/level3-project
-#  params:
+  serviceAccountName: sa
+#  resources:
+#  - name: level3-project
+#    resourceSpec:
+#      type: git
+#      params:
+#      - name: revision
+#        value: main
+#      - name: url
+#        value: https://github.com/Ra-tnt/level3-project
+  params:
 #  - name: imagename 
 #    value: "raghadq/carts:testing"
 # - name: pl-param-y
 #   value: "500"
+    - name: outputfile
+      value: |
+        - name: job-name
+          valueFrom: '{.metadata.name}'
+        - name: job-namespace
+          valueFrom: '{.metadata.namespace}'
+    - name: manifestfile
+      value: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: carts
+          labels:
+            app: carts
+        spec:
+          selector:
+            matchLabels:
+              app: carts
+          template:
+            metadata:
+              labels:
+                app: carts
+            spec:
+              containers:
+              - name: carts
+                image: raghadq/carts:testing
+                ports:
+                - containerPort: 80
+
 
 
 #params:
