@@ -6,20 +6,18 @@ spec:
   pipelineRef:
     name: carts-pipeline
   serviceAccountName: sa
-#  resources:
-#  - name: level3-project
-#    resourceSpec:
-#      type: git
-#      params:
-#      - name: revision
-#        value: main
-#      - name: url
-#        value: https://github.com/Ra-tnt/level3-project
+  resources:
+  - name: level3-project
+    resourceSpec:
+      type: git
+      params:
+      - name: revision
+        value: main
+      - name: url
+        value: https://github.com/Ra-tnt/level3-project
   params:
-#  - name: imagename 
-#    value: "raghadq/carts:testing"
-# - name: pl-param-y
-#   value: "500"
+    - name: imagename 
+      value: "raghadq/carts:testing"
     - name: outputfile
       value: |
         - name: job-name
@@ -48,17 +46,53 @@ spec:
                 image: raghadq/carts:testing
                 ports:
                 - containerPort: 80
-
-
-
-#params:
-#    - name: imagename
-#    - name: dockerfilepath
-#      default: /workspace/level3-project/carts/Dockerfile
-#    - name: contextpath
-#     default: /workspace/level3-project/carts
-#    - name: extraargsvalue
-#      default: ""
-#    - name: builderimage
-#      default: gcr.io/kaniko-project/executor:latest
+    - name: manifestfilesvc
+      value: |
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: carts
+        spec:
+          type: NodePort
+          selector:
+            app: carts
+          ports:
+          - port: 80
+            targetPort: 80
+    - name: manifestfiledb
+      value: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: carts-db
+          labels:
+            app: carts-db
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: carts-db
+          template:
+            metadata:
+              labels:
+                app: carts-db
+            spec:
+              containers:
+              - name: carts-db
+                image: mongo
+                ports:
+                - name: mongo
+                  containerPort: 27017
+    - name: manifestfiledbsvc
+      value: |
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: carts-db
+        spec:
+          ports:
+          - port: 27017
+            targetPort: 27017
+          selector:
+            app: carts-db
 
