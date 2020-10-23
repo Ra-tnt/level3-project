@@ -1,0 +1,75 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: shipping-pipeline
+spec:
+  resources:
+    - name: level3-project
+      type: git
+  params:
+    - name: imagename
+      default: "raghadq/shipping:testing"
+    - name: dockerfilepath
+      default: /workspace/level3-project/shipping/Dockerfile
+    - name: contextpath
+      default: /workspace/level3-project/shipping
+    - name: extraargsvalue
+      default: ""
+    - name: builderimage
+      default: gcr.io/kaniko-project/executor:latest
+    - name: kubeaction
+      default: apply
+    - name: manifestfile
+      default:
+    - name: outputfile
+      default: "" 
+    - name: manifestfilesvc
+      default:
+  tasks:
+    - name: build-docker-shipping
+      taskRef:
+        name: build-push-shipping
+      resources:
+        inputs:
+          - name: level3-project
+            resource: level3-project
+      params:
+      - name: IMAGE
+        value: "$(params.imagename)"
+      - name: DOCKERFILE
+        value: "$(params.dockerfilepath)"
+      - name: CONTEXT
+        value: "$(params.contextpath)"
+      - name: EXTRA_ARGS
+        value: "$(params.extraargsvalue)"
+      - name: BUILDER_IMAGE
+        value: "$(params.builderimage)"
+    - name: deploy-pods-shipping
+      taskRef:
+        name: shipping-deploy
+      runAfter: 
+        - build-docker-shipping
+      params:
+      - name: action
+        value: "$(params.kubeaction)"
+      - name: manifest
+        value: "$(params.manifestfile)"
+      - name: output
+        value: "$(params.outputfile)"
+    - name: deploy-service-shipping
+      taskRef: 
+        name: shipping-svc
+      runAfter:
+        - deploy-pods-shipping
+      params:
+      - name: action
+        value: "$(params.kubeaction)"
+      - name: manifest
+        value: "$(params.manifestfilesvc)"
+      - name: output
+        value: "$(params.outputfile)"
+      
+  results:
+    - name: imagedigest
+      description: result of image digest
+      value: $(tasks.build-docker-image.results.IMAGE-DIGEST)

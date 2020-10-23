@@ -1,0 +1,33 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: shipping-svc-run
+spec:
+  serviceAccountName: sa
+  taskRef:
+    name: shipping-svc
+  params:
+    - name: action
+      value: apply
+    - name: output
+      value: |
+        - name: svc-name
+          valueFrom: '{.metadata.name}'
+        - name: svc-namespace
+          valueFrom: '{.metadata.namespace}'
+#    - name: set-ownerreference
+#      value: "false"
+    - name: manifest
+      value: |
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: shipping
+        spec:
+          type: NodePort
+          selector:
+            app: shipping
+          ports:
+          - port: 80
+            targetPort: 80
+  

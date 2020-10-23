@@ -1,0 +1,62 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: shipping-pipelinerun
+spec:
+  pipelineRef:
+    name: shipping-pipeline
+  serviceAccountName: sa
+  resources:
+  - name: level3-project
+    resourceSpec:
+      type: git
+      params:
+      - name: revision
+        value: main
+      - name: url
+        value: https://github.com/Ra-tnt/level3-project
+  params:
+    - name: imagename 
+      value: "raghadq/shipping:testing"
+    - name: outputfile
+      value: |
+        - name: job-name
+          valueFrom: '{.metadata.name}'
+        - name: job-namespace
+          valueFrom: '{.metadata.namespace}'
+    - name: manifestfile
+      value: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: shipping
+          labels:
+            app: shipping
+        spec:
+          selector:
+            matchLabels:
+              app: shipping
+          template:
+            metadata:
+              labels:
+                app: shipping
+            spec:
+              containers:
+              - name: shipping
+                image: raghadq/shipping:testing
+                ports:
+                - containerPort: 80
+    - name: manifestfilesvc
+      value: |
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: shipping
+        spec:
+          type: NodePort
+          selector:
+            app: shipping
+          ports:
+          - port: 80
+            targetPort: 80
+
