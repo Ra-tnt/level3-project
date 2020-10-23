@@ -1,18 +1,18 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: carts-pipeline
+  name: orders-pipeline
 spec:
   resources:
     - name: level3-project
       type: git
   params:
     - name: imagename
-      default: "raghadq/carts:testing"
+      default: "raghadq/orders:testing"
     - name: dockerfilepath
-      default: /workspace/level3-project/carts/Dockerfile
+      default: /workspace/level3-project/orders/Dockerfile
     - name: contextpath
-      default: /workspace/level3-project/carts
+      default: /workspace/level3-project/orders
     - name: extraargsvalue
       default: ""
     - name: builderimage
@@ -30,9 +30,9 @@ spec:
     - name: manifestfiledbsvc
       default:  
   tasks:
-    - name: build-docker-carts
+    - name: build-docker-orders
       taskRef:
-        name: build-push-carts
+        name: build-push-orders
       resources:
         inputs:
           - name: level3-project
@@ -48,11 +48,11 @@ spec:
         value: "$(params.extraargsvalue)"
       - name: BUILDER_IMAGE
         value: "$(params.builderimage)"
-    - name: deploy-pods-db-carts
+    - name: deploy-pods-db-shipping
       taskRef:
-        name: cartsdb-deploy
+        name: ordersdb-deploy
       runAfter: 
-        - build-docker-carts
+        - build-docker-orders
       params: 
       - name: action
         value: "$(params.kubeaction)"
@@ -60,11 +60,11 @@ spec:
         value: "$(params.manifestfiledb)"
       - name: output
         value: "$(params.outputfile)"
-    - name: deploy-service-db-carts
+    - name: deploy-service-db-shipping
       taskRef:
-        name: cartsdb-svc
+        name: ordersdb-svc
       runAfter:
-        - deploy-pods-db-carts
+        - deploy-pods-db-shipping
       params:
       - name: action
         value: "$(params.kubeaction)"
@@ -72,11 +72,11 @@ spec:
         value: "$(params.manifestfiledbsvc)"
       - name: output
         value: "$(params.outputfile)"
-    - name: deploy-pods-carts
+    - name: deploy-pods-orders
       taskRef:
-        name: carts-deploy
+        name: orders-deploy
       runAfter: 
-        - deploy-service-db-carts
+        - deploy-service-db-shipping
       params:
       - name: action
         value: "$(params.kubeaction)"
@@ -84,11 +84,11 @@ spec:
         value: "$(params.manifestfile)"
       - name: output
         value: "$(params.outputfile)"
-    - name: deploy-service-carts
+    - name: deploy-service
       taskRef: 
-        name: carts-svc
+        name: orders-svc
       runAfter:
-        - deploy-pods-carts
+        - deploy-pods-orders
       params:
       - name: action
         value: "$(params.kubeaction)"
@@ -100,4 +100,6 @@ spec:
   results:
     - name: imagedigest
       description: result of image digest
-      value: $(tasks.build-docker-carts.results.IMAGE-DIGEST)
+      value: $(tasks.build-docker-orders.results.IMAGE-DIGEST)
+
+
