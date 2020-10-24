@@ -1,0 +1,114 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: catalogue-pipelinerun
+spec:
+  pipelineRef:
+    name: catalogue-pipeline
+  serviceAccountName: sa
+  resources:
+  - name: level3-project
+    resourceSpec:
+      type: git
+      params:
+      - name: revision
+        value: main
+      - name: url
+        value: https://github.com/Ra-tnt/level3-project
+  params:
+    - name: imagename 
+      value: "raghadq/catalogue:testing"
+    - name: outputfile
+      value: |
+        - name: job-name
+          valueFrom: '{.metadata.name}'
+        - name: job-namespace
+          valueFrom: '{.metadata.namespace}'
+    - name: manifestfile
+      value: |
+        apiVersion: apps/v1 
+        kind: Deployment
+        metadata:
+          name: catalogue
+          labels:
+            app: catalogue
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: catalogue
+          template:
+            metadata:
+              labels:
+                app: catalogue
+            spec:
+              containers:
+              - name: catalogue
+                image: raghadq/catalogue:testing
+                command: ["/app"]
+                args:
+                - -port=80
+                resources:
+                  limits:
+                    cpu: 100m
+                    memory: 100Mi
+                  requests:
+                    cpu: 100m
+                    memory: 100Mi
+                ports:
+                - containerPort: 80
+    - name: manifestfilesvc
+      value: |
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: catalogue
+        spec:
+          type: NodePort
+          ports:
+          - port: 80
+            targetPort: 80
+          selector:
+            app: catalogue
+    - name: manifestfiledb
+      value: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: catalogue-db
+          labels:
+            app: catalogue-db
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: catalogue-db
+          template:
+            metadata:
+              labels:
+                app: catalogue-db
+            spec:
+              containers:
+              - name: catalogue-db
+                image: weaveworksdemos/catalogue-db:0.3.0
+                env:
+                  - name: MYSQL_ROOT_PASSWORD
+                    value: fake_password
+                  - name: MYSQL_DATABASE
+                    value: socksdb
+                ports:
+                - name: mysql
+                  containerPort: 3306
+    - name: manifestfiledbsvc
+      value: |
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: catalogue-db
+        spec:
+          ports:
+          - port: 3306
+            targetPort: 3306
+          selector:
+            app: catalogue-db
+
