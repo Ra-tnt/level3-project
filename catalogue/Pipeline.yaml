@@ -3,20 +3,20 @@ kind: Pipeline
 metadata:
   name: catalogue-pipeline
 spec:
-  resources:
-    - name: level3-project
-      type: git
+#  resources:
+#    - name: level3-project
+#      type: git
   params:
-    - name: imagename
-      default: "raghadq/catalogue:testing"
-    - name: dockerfilepath
-      default: /workspace/level3-project/catalogue/Dockerfile
-    - name: contextpath
-      default: /workspace/level3-project/catalogue
-    - name: extraargsvalue
-      default: ""
-    - name: builderimage
-      default: gcr.io/kaniko-project/executor:latest
+#    - name: imagename
+#      default: "raghadq/catalogue:testing"
+#    - name: dockerfilepath
+#      default: /workspace/level3-project/catalogue/Dockerfile
+#    - name: contextpath
+#      default: /workspace/level3-project/catalogue
+#    - name: extraargsvalue
+#      default: ""
+#    - name: builderimage
+#      default: gcr.io/kaniko-project/executor:latest
     - name: kubeaction
       default: apply
     - name: manifestfile
@@ -30,29 +30,29 @@ spec:
     - name: manifestfiledbsvc
       default:  
   tasks:
-    - name: build-docker-catalogue
-      taskRef:
-        name: build-push-catalogue
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.imagename)"
-      - name: DOCKERFILE
-        value: "$(params.dockerfilepath)"
-      - name: CONTEXT
-        value: "$(params.contextpath)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
+#    - name: build-docker-catalogue
+#      taskRef:
+#        name: build-push-catalogue
+#      resources:
+#        inputs:
+#          - name: level3-project
+#            resource: level3-project
+#      params:
+#      - name: IMAGE
+#        value: "$(params.imagename)"
+#      - name: DOCKERFILE
+#        value: "$(params.dockerfilepath)"
+#      - name: CONTEXT
+#        value: "$(params.contextpath)"
+#      - name: EXTRA_ARGS
+#        value: "$(params.extraargsvalue)"
+#      - name: BUILDER_IMAGE
+#        value: "$(params.builderimage)"
     - name: deploy-pods-db-catalogue
       taskRef:
         name: cataloguedb-deploy
-      runAfter: 
-        - build-docker-catalogue
+#      runAfter: 
+#        - build-docker-catalogue
       params: 
       - name: action
         value: "$(params.kubeaction)"
@@ -97,7 +97,7 @@ spec:
       - name: output
         value: "$(params.outputfile)"
       
-  results:
-    - name: imagedigest
-      description: result of image digest
-      value: $(tasks.build-docker-catalogue.results.IMAGE-DIGEST)
+#  results:
+#    - name: imagedigest
+#      description: result of image digest
+#      value: $(tasks.build-docker-catalogue.results.IMAGE-DIGEST)
