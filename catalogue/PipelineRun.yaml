@@ -6,18 +6,18 @@ spec:
   pipelineRef:
     name: catalogue-pipeline
   serviceAccountName: sa
-#  resources:
-#  - name: level3-project
-#    resourceSpec:
-#      type: git
-#      params:
-#      - name: revision
-#        value: main
-#      - name: url
-#        value: https://github.com/Ra-tnt/level3-project
+  resources:
+  - name: level3-project
+    resourceSpec:
+      type: git
+      params:
+      - name: revision
+        value: main
+      - name: url
+        value: https://github.com/Ra-tnt/level3-project
   params:
-#    - name: imagename 
-#      value: "raghadq/catalogue"
+    - name: imagename 
+      value: "raghadq/catatest"
     - name: outputfile
       value: |
         - name: job-name
@@ -44,7 +44,7 @@ spec:
             spec:
               containers:
               - name: catalogue
-                image: raghadq/catalogue
+                image: raghadq/catatest
                 command: ["/app"]
                 args:
                 - -port=80
