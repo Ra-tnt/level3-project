@@ -4,7 +4,6 @@ metadata:
   name: orders
   labels:
     name: orders
-  namespace: cicd
 spec:
   type: NodePort
   selector:

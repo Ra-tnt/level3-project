@@ -4,7 +4,6 @@ metadata:
   name: orders-db
   labels:
     app: orders-db
-  namespace: cicd
 spec:
   replicas: 1
   selector:
@@ -21,15 +20,6 @@ spec:
         ports:
         - name: mongo
           containerPort: 27017
-        securityContext:
-          capabilities:
-            drop:
-              - all
-            add:
-              - CHOWN
-              - SETGID
-              - SETUID
-          readOnlyRootFilesystem: true
         volumeMounts:
         - mountPath: /tmp
           name: tmp-volume
@@ -37,5 +27,3 @@ spec:
         - name: tmp-volume
           emptyDir:
             medium: Memory
-      nodeSelector:
-        beta.kubernetes.io/os: linux
