@@ -1,4 +1,3 @@
-i
 FROM golang:1.7
 
 COPY . /go/src/github.com/microservices-demo/catalogue
