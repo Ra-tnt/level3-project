@@ -57,6 +57,8 @@ spec:
     - name: build-docker-userdb
       taskRef:
         name: build-push-userdb
+      runAfter:
+        - build-docker-user
       resources:
         inputs:
           - name: level3-project
@@ -100,7 +102,7 @@ spec:
       taskRef:
         name: user-deploy
       runAfter: 
-        - build-docker-user
+        - deploy-service-db-user
       params:
       - name: action
         value: "$(params.kubeaction)"
