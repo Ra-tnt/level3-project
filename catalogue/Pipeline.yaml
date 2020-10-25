@@ -16,9 +16,9 @@ spec:
     - name: imagenamedb
       default: "raghadq/catalogue-db"
     - name: dockerfilepathdb
-      default: /workspace/level3-project/catalogue/cataloguedb/Dockerfile
+      default: /workspace/level3-project/catalogue/catalogue-db/Dockerfile
     - name: contextpathdb
-      default: /workspace/level3-project/catalogue/cataloguedb
+      default: /workspace/level3-project/catalogue/catalogue-db
     - name: extraargsvalue
       default: ""
     - name: builderimage
