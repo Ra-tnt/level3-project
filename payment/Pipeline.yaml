@@ -1,0 +1,75 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: payment-pipeline
+spec:
+  resources:
+    - name: level3-project
+      type: git
+  params:
+    - name: imagename
+      default: "raghadq/payment"
+    - name: dockerfilepath
+      default: /workspace/level3-project/payment/Dockerfile
+    - name: contextpath
+      default: /workspace/level3-project/payment
+    - name: extraargsvalue
+      default: ""
+    - name: builderimage
+      default: gcr.io/kaniko-project/executor:latest
+    - name: kubeaction
+      default: apply
+    - name: manifestfile
+      default:
+    - name: outputfile
+      default: "" 
+    - name: manifestfilesvc
+      default:
+  tasks:
+    - name: build-docker-payment
+      taskRef:
+        name: build-push-payment
+      resources:
+        inputs:
+          - name: level3-project
+            resource: level3-project
+      params:
+      - name: IMAGE
+        value: "$(params.imagename)"
+      - name: DOCKERFILE
+        value: "$(params.dockerfilepath)"
+      - name: CONTEXT
+        value: "$(params.contextpath)"
+      - name: EXTRA_ARGS
+        value: "$(params.extraargsvalue)"
+      - name: BUILDER_IMAGE
+        value: "$(params.builderimage)"
+    - name: deploy-pods-payment
+      taskRef:
+        name: payment-deploy
+      runAfter: 
+        - build-docker-payment
+      params:
+      - name: action
+        value: "$(params.kubeaction)"
+      - name: manifest
+        value: "$(params.manifestfile)"
+      - name: output
+        value: "$(params.outputfile)"
+    - name: deploy-service-payment
+      taskRef: 
+        name: payment-svc
+      runAfter:
+        - deploy-pods-payment
+      params:
+      - name: action
+        value: "$(params.kubeaction)"
+      - name: manifest
+        value: "$(params.manifestfilesvc)"
+      - name: output
+        value: "$(params.outputfile)"
+      
+  results:
+    - name: imagedigest
+      description: result of image digest
+      value: $(tasks.build-docker-payment.results.IMAGE-DIGEST)
