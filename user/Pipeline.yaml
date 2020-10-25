@@ -36,29 +36,11 @@ spec:
     - name: manifestfiledbsvc
       default:  
   tasks:
-    - name: build-docker-user
-      taskRef:
-        name: build-push-user
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.imagename)"
-      - name: DOCKERFILE
-        value: "$(params.dockerfilepath)"
-      - name: CONTEXT
-        value: "$(params.contextpath)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
     - name: build-docker-userdb
       taskRef:
         name: build-push-userdb
-      runAfter:
-        - build-docker-user
+#      runAfter:
+#        - build-docker-user
       resources:
         inputs:
           - name: level3-project
@@ -70,6 +52,26 @@ spec:
         value: "$(params.dockerfilepathdb)"
       - name: CONTEXT
         value: "$(params.contextpathdb)"
+      - name: EXTRA_ARGS
+        value: "$(params.extraargsvalue)"
+      - name: BUILDER_IMAGE
+        value: "$(params.builderimage)"
+    - name: build-docker-user
+      taskRef:
+        name: build-push-user
+      runAfter:
+        - build-docker-userdb
+      resources:
+        inputs:
+          - name: level3-project
+            resource: level3-project
+      params:
+      - name: IMAGE
+        value: "$(params.imagename)"
+      - name: DOCKERFILE
+        value: "$(params.dockerfilepath)"
+      - name: CONTEXT
+        value: "$(params.contextpath)"
       - name: EXTRA_ARGS
         value: "$(params.extraargsvalue)"
       - name: BUILDER_IMAGE
