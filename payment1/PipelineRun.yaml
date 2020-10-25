@@ -1,0 +1,81 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: payment-pipelinerun
+spec:
+  pipelineRef:
+    name: payment-pipeline
+  serviceAccountName: sa
+  resources:
+  - name: level3-project
+    resourceSpec:
+      type: git
+      params:
+      - name: revision
+        value: main
+      - name: url
+        value: https://github.com/Ra-tnt/level3-project
+  params:
+    - name: imagename 
+      value: "raghadq/payment"
+    - name: outputfile
+      value: |
+        - name: job-name
+          valueFrom: '{.metadata.name}'
+        - name: job-namespace
+          valueFrom: '{.metadata.namespace}'
+    - name: manifestfile
+      value: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: payment
+          labels:
+            app: payment
+        spec:
+          selector:
+            matchLabels:
+              app: payment
+          replicas: 1
+          template:
+            metadata:
+              labels:
+                app: payment
+            spec:
+              containers:
+              - name: payment
+                image: raghadq/payment
+                resources:
+                  limits:
+                    cpu: 100m
+                    memory: 100Mi
+                  requests:
+                    cpu: 99m
+                    memory: 100Mi
+                ports:
+                - containerPort: 80
+                securityContext:
+                  runAsNonRoot: true
+                  runAsUser: 10001
+                  capabilities:
+                    drop:
+                      - all
+                    add:
+                      - NET_BIND_SERVICE
+                  readOnlyRootFilesystem: true
+    - name: manifestfilesvc
+      value: |
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: payment
+          labels:
+            app: payment
+        spec:
+          type: NodePort
+          ports:
+          - port: 80
+            targetPort: 80
+          selector:
+            app: payment
+
