@@ -59,6 +59,8 @@ spec:
                 env:
                 - name: mongo
                   value: user-db:27017
+                securityContext:
+                  runAsNonRoot: false
     - name: manifestfilesvc
       value: |
         apiVersion: v1
