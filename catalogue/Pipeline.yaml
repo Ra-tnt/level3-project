@@ -8,7 +8,7 @@ spec:
       type: git
   params:
     - name: imagename
-      default: "raghadq/catlogue"
+      default: "raghadq/catalogue"
     - name: dockerfilepath
       default: /workspace/level3-project/catalogue/Dockerfile
     - name: contextpath
