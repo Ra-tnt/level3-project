@@ -17,13 +17,14 @@ USER root
 
 #RUN    addgroup -g ${SERVICE_GID} ${SERVICE_GROUP} && \
 #       adduser -g "${SERVICE_NAME} user" -D -H -G ${SERVICE_GROUP} -s /sbin/nologin -u ${SERVICE_UID} ${SERVICE_USER} && \
-RUN     apk add --update libcap
+#RUN     apk add --update libcap
 
 WORKDIR /
 COPY --from=0 /app /app
 COPY images/ /images/
 
-#RUN     chmod +x /app && \
+RUN     chmod +x /app 
+#&& \
 #        chown -R ${SERVICE_USER}:${SERVICE_GROUP} /app /images && \
 #        setcap 'cap_net_bind_service=+ep' /app
 
