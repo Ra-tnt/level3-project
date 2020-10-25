@@ -57,6 +57,8 @@ spec:
                     memory: 100Mi
                 ports:
                 - containerPort: 80
+                securityContext:
+                  runAsNonRoot: false
     - name: manifestfilesvc
       value: |
         apiVersion: v1
