@@ -17,7 +17,7 @@ spec:
         value: https://github.com/Ra-tnt/level3-project
   params:
     - name: imagename 
-      value: "raghadq/catatest"
+      value: "raghadq/catalogue"
     - name: outputfile
       value: |
         - name: job-name
@@ -57,6 +57,8 @@ spec:
                     memory: 100Mi
                 ports:
                 - containerPort: 80
+                securityContext:
+                  runAsNonRoot: false
     - name: manifestfilesvc
       value: |
         apiVersion: v1
