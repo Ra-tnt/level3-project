@@ -1,0 +1,76 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: frontend-pipelinerun
+spec:
+  pipelineRef:
+    name: frontend-pipeline
+  serviceAccountName: sa
+  resources:
+  - name: level3-project
+    resourceSpec:
+      type: git
+      params:
+      - name: revision
+        value: main
+      - name: url
+        value: https://github.com/Ra-tnt/level3-project
+  params:
+    - name: imagename 
+      value: "raghadq/frontend"
+    - name: outputfile
+      value: |
+        - name: job-name
+          valueFrom: '{.metadata.name}'
+        - name: job-namespace
+          valueFrom: '{.metadata.namespace}'
+    - name: manifestfile
+      value: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: front-end
+          labels:
+            app: front-end
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: front-end
+          template:
+            metadata:
+              labels:
+                app: front-end
+            spec:
+              containers:
+              - name: front-end
+                image: raghadq/front-end
+                resources:
+                  limits:
+                    cpu: 300m
+                    memory: 1000Mi
+                  requests:
+                    cpu: 100m
+                    memory: 300Mi
+                ports:
+                - containerPort: 8079
+                env:
+                - name: SESSION_REDIS
+                  value: "true"
+    - name: manifestfilesvc
+      value: |
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: front-end
+          labels:
+            app: front-end
+        spec:
+          type: LoadBalancer
+          ports:
+          - port: 80
+            targetPort: 8079
+            nodePort: 30001
+          selector:
+            app: front-end
+

@@ -1,0 +1,75 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: frontend-pipeline
+spec:
+  resources:
+    - name: level3-project
+      type: git
+  params:
+    - name: imagename
+      default: "raghadq/frontend"
+    - name: dockerfilepath
+      default: /workspace/level3-project/front-end/Dockerfile
+    - name: contextpath
+      default: /workspace/level3-project/front-end
+    - name: extraargsvalue
+      default: ""
+    - name: builderimage
+      default: gcr.io/kaniko-project/executor:latest
+    - name: kubeaction
+      default: apply
+    - name: manifestfile
+      default:
+    - name: outputfile
+      default: "" 
+    - name: manifestfilesvc
+      default:
+  tasks:
+    - name: build-docker-frontend
+      taskRef:
+        name: build-push-frontend
+      resources:
+        inputs:
+          - name: level3-project
+            resource: level3-project
+      params:
+      - name: IMAGE
+        value: "$(params.imagename)"
+      - name: DOCKERFILE
+        value: "$(params.dockerfilepath)"
+      - name: CONTEXT
+        value: "$(params.contextpath)"
+      - name: EXTRA_ARGS
+        value: "$(params.extraargsvalue)"
+      - name: BUILDER_IMAGE
+        value: "$(params.builderimage)"
+    - name: deploy-pods-frontend
+      taskRef:
+        name: frontend-deploy
+      runAfter: 
+        - build-docker-frontend
+      params:
+      - name: action
+        value: "$(params.kubeaction)"
+      - name: manifest
+        value: "$(params.manifestfile)"
+      - name: output
+        value: "$(params.outputfile)"
+    - name: deploy-service-frontend
+      taskRef: 
+        name: frontend-svc
+      runAfter:
+        - deploy-pods-frontend
+      params:
+      - name: action
+        value: "$(params.kubeaction)"
+      - name: manifest
+        value: "$(params.manifestfilesvc)"
+      - name: output
+        value: "$(params.outputfile)"
+      
+  results:
+    - name: imagedigest
+      description: result of image digest
+      value: $(tasks.build-docker-frontend.results.IMAGE-DIGEST)
