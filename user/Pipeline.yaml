@@ -80,7 +80,7 @@ spec:
       taskRef:
         name: userdb-deploy
       runAfter: 
-        - build-docker-userdb
+        - build-docker-user
       params: 
       - name: action
         value: "$(params.kubeaction)"
