@@ -59,8 +59,6 @@ spec:
     - name: build-docker-user
       taskRef:
         name: build-push-user
-      runAfter:
-        - build-docker-userdb
       resources:
         inputs:
           - name: level3-project
