@@ -18,6 +18,8 @@ spec:
   params:
     - name: imagename 
       value: "raghadq/catalogue"
+    - name: imagenamedb 
+      value: "raghadq/catalogue-db"
     - name: outputfile
       value: |
         - name: job-name
@@ -44,7 +46,7 @@ spec:
             spec:
               containers:
               - name: catalogue
-                image: raghadq/catatest
+                image: raghadq/catalogue
                 command: ["/app"]
                 args:
                 - -port=80
@@ -92,7 +94,7 @@ spec:
             spec:
               containers:
               - name: catalogue-db
-                image: weaveworksdemos/catalogue-db:0.3.0
+                image: raghadq/catalogue-db
                 env:
                   - name: MYSQL_ROOT_PASSWORD
                     value: fake_password

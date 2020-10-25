@@ -13,6 +13,12 @@ spec:
       default: /workspace/level3-project/catalogue/Dockerfile
     - name: contextpath
       default: /workspace/level3-project/catalogue
+    - name: imagenamedb
+      default: "raghadq/catalogue-db"
+    - name: dockerfilepathdb
+      default: /workspace/level3-project/catalogue/cataloguedb/Dockerfile
+    - name: contextpathdb
+      default: /workspace/level3-project/catalogue/cataloguedb
     - name: extraargsvalue
       default: ""
     - name: builderimage
@@ -48,11 +54,29 @@ spec:
         value: "$(params.extraargsvalue)"
       - name: BUILDER_IMAGE
         value: "$(params.builderimage)"
+    - name: build-docker-cataloguedb
+      taskRef:
+        name: build-push-cataloguedb
+      resources:
+        inputs:
+          - name: level3-project
+            resource: level3-project
+      params:
+      - name: IMAGE
+        value: "$(params.imagenamedb)"
+      - name: DOCKERFILE
+        value: "$(params.dockerfilepathdb)"
+      - name: CONTEXT
+        value: "$(params.contextpathdb)"
+      - name: EXTRA_ARGS
+        value: "$(params.extraargsvalue)"
+      - name: BUILDER_IMAGE
+        value: "$(params.builderimage)"
     - name: deploy-pods-db-catalogue
       taskRef:
         name: cataloguedb-deploy
       runAfter: 
-        - build-docker-catalogue
+        - build-docker-cataloguedb
       params: 
       - name: action
         value: "$(params.kubeaction)"
