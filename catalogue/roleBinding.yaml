@@ -5,7 +5,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: sa
-    namespace: test
+#    namespace: test
 roleRef:
   kind: ClusterRole
   name: admin
