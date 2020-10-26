@@ -8,7 +8,7 @@ spec:
       type: git
   params:
     - name: imagename
-      default: "raghadq/orders:testing"
+      default: "raghadq/orders"
     - name: dockerfilepath
       default: /workspace/level3-project/orders/Dockerfile
     - name: contextpath

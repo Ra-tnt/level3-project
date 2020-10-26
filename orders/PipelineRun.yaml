@@ -17,7 +17,7 @@ spec:
         value: https://github.com/Ra-tnt/level3-project
   params:
     - name: imagename 
-      value: "raghadq/orders:testing"
+      value: "raghadq/orders"
     - name: outputfile
       value: |
         - name: job-name
@@ -33,6 +33,7 @@ spec:
           labels:
             app: orders
         spec:
+          replicas: 1
           selector:
             matchLabels:
               app: orders
@@ -43,7 +44,14 @@ spec:
             spec:
               containers:
               - name: orders
-                image: raghadq/orders:testing
+                image: raghadq/orders
+                resources:
+                  limits:
+                    cpu: 500m
+                    memory: 500Mi
+                  requests:
+                    cpu: 200m
+                    memory: 500Mi
                 ports:
                 - containerPort: 80
     - name: manifestfilesvc
@@ -52,6 +60,8 @@ spec:
         kind: Service
         metadata:
           name: orders
+          labels:
+            app: orders
         spec:
           type: NodePort
           selector:
@@ -89,6 +99,8 @@ spec:
         kind: Service
         metadata:
           name: orders-db
+          labels:
+            app: orders-db
         spec:
           ports:
           - port: 27017
