@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: orders
-        image: raghadq/orders
+        image: raghadq/ordertest
         resources:
           limits:
             cpu: 500m
