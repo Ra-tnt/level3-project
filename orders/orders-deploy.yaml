@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: orders
-        image: raghadq/orders:testing
+        image: raghadq/orders
         resources:
           limits:
             cpu: 500m
@@ -28,10 +28,3 @@ spec:
             memory: 500Mi
         ports:
         - containerPort: 80
-        volumeMounts:
-        - mountPath: /tmp
-          name: tmp-volume
-      volumes:
-        - name: tmp-volume
-          emptyDir:
-            medium: Memory

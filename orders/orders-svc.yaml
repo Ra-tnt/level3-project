@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: orders
   labels:
-    name: orders
+    app: orders
 spec:
   type: NodePort
   selector:
