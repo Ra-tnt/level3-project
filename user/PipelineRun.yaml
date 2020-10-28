@@ -59,8 +59,6 @@ spec:
                 env:
                 - name: mongo
                   value: user-db:27017
-                securityContext:
-                  runAsNonRoot: false
     - name: manifestfilesvc
       value: |
         apiVersion: v1
@@ -101,6 +99,13 @@ spec:
                 ports:
                 - name: mongo
                   containerPort: 27017
+                volumeMounts:
+                - mountPath: /tmp
+                  name: tmp-volume
+              volumes:
+              - name: tmp-volume
+                emptyDir:
+                  medium: Memory
     - name: manifestfiledbsvc
       value: |
         apiVersion: v1

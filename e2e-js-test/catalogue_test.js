@@ -3,7 +3,7 @@
   require("./config");
 
   casper.test.begin("User interacts with the catalogue", 2, function(test) {
-    casper.start("http://15.185.121.26:32420/", function() {
+    casper.start("http://157.175.52.93:30659/", function() {
       this.waitForText("Catalogue", function() {
         this.clickLabel("Catalogue");
       }, function() {
