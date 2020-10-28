@@ -28,8 +28,8 @@ WORKDIR /
 EXPOSE 80
 COPY --from=0 /user /
 
-RUN	chmod +x /user
-# && \
+RUN	chmod +x /user 
+#&& \
 #	chown -R ${SERVICE_USER}:${SERVICE_GROUP} /user && \
 #	setcap 'cap_net_bind_service=+ep' /user
 
