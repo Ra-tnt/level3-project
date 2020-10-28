@@ -19,10 +19,9 @@ USER root
 #RUN	addgroup -g ${SERVICE_GID} ${SERVICE_GROUP} && \
 #	adduser -g "${SERVICE_NAME} user" -D -H -G ${SERVICE_GROUP} -s /sbin/nologin -u ${SERVICE_UID} ${SERVICE_USER} && \
 #	apk add --update libcap
-
+ENV MONGO_HOST user-db:27017
 ENV HATEAOS user
 ENV USER_DATABASE mongodb
-ENV MONGO_HOST user-db
 
 WORKDIR /
 EXPOSE 80
