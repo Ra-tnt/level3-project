@@ -1,0 +1,10 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: frontend-ingress
+spec:
+  steps:
+    - name: kubectl
+      image: "bitnami/kubectl"
+      command: ["kubectl"]
+      args: ["apply", "-f", "https://raw.githubusercontent.com/Ra-tnt/level3-project/main/frontend/ingress.yaml"]
