@@ -20,7 +20,7 @@ USER root
 #	adduser -g "${SERVICE_NAME} user" -D -H -G ${SERVICE_GROUP} -s /sbin/nologin -u ${SERVICE_UID} ${SERVICE_USER} && \
 #	apk add --update libcap
 ENV MONGO_HOST user-db:27017
-ENV HATEAOS user
+ENV HATEOAS user
 ENV USER_DATABASE mongodb
 
 WORKDIR /

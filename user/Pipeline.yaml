@@ -124,6 +124,10 @@ spec:
         value: "$(params.outputfile)"
       
   results:
+    - name: imagedigestdb
+      description: result of image digest db
+      value: $(tasks.build-docker-userdb.results.IMAGE-DIGEST)
+
     - name: imagedigest
       description: result of image digest
       value: $(tasks.build-docker-user.results.IMAGE-DIGEST)
