@@ -604,7 +604,7 @@ spec:
       - name: BUILDER_IMAGE
         value: "$(params.builderimage)"
     - name: deploy-e2e
-            taskRef:
+      taskRef:
         name: deploy-test
       runAfter:
         - build-docker-test
