@@ -19,8 +19,6 @@ WORKDIR /e2e-test
 
 COPY runner.sh /e2e-test
 COPY *_test.js /e2e-test
-COPY *.js /e2e-test
-COPY *.json /e2e-test
 
 RUN chmod +x runner.sh
 
