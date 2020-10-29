@@ -1,0 +1,57 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: test-pipeline
+spec:
+  resources:
+    - name: level3-project
+      type: git
+  params:
+    - name: test-imagename
+      default: "raghadq/e2e-test"
+    - name: test-dockerfilepath
+      default: /workspace/level3-project/e2e-js-test/Dockerfile
+    - name: test-contextpath
+      default: /workspace/level3-project/e2e-js-test
+    - name: extraargsvalue
+      default: ""
+    - name: builderimage
+      default: gcr.io/kaniko-project/executor:latest
+
+  tasks:    
+    - name: build-docker-test
+      taskRef:
+        name: build-push-test
+      resources:
+        inputs:
+          - name: level3-project
+            resource: level3-project
+      params:
+      - name: IMAGE
+        value: "$(params.test-imagename)"
+      - name: DOCKERFILE
+        value: "$(params.test-dockerfilepath)"
+      - name: CONTEXT
+        value: "$(params.test-contextpath)"
+      - name: EXTRA_ARGS
+        value: "$(params.extraargsvalue)"
+      - name: BUILDER_IMAGE
+        value: "$(params.builderimage)"
+    - name: deploy-e2e
+      taskRef:
+        name: deploy-test
+      runAfter:
+        - build-docker-test
+      params:
+      - name: IMAGE
+        value: "$(params.test-imagename)"
+      resources:
+        inputs:
+          - name: level3-project
+            resource: level3-project
+
+  results:
+    - name: test-imagedigest
+      description: result of image digest
+      value: $(tasks.build-docker-test.results.IMAGE-DIGEST)
+

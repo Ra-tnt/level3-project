@@ -7,9 +7,14 @@ spec:
     inputs:
     - name: level3-project
       type: git
+  params:
+    - name: IMAGE
+      description: name of the image
   steps:
-  - name: runscript
-    image: bash:latest
-    script: |
-      #!/usr/bin/env bash
-      . /workspace/level3-project/e2e-js-test/runner.sh
+    - name: apply-test
+      image: "$(inputs.params.IMAGE)"
+      command: ["/bin/sh"]
+      args:
+        - "-c"
+        - "/e2e-test/runner.sh"
+
