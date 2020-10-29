@@ -167,8 +167,8 @@ spec:
     - name: build-docker-carts
       taskRef:
         name: build-push-carts
-        runAfter:
-          - deploy-service-shipping
+      runAfter:
+        - deploy-service-shipping
       resources:
         inputs:
           - name: level3-project
@@ -195,7 +195,7 @@ spec:
       - name: manifest
         value: "$(params.carts-manifestfiledb)"
       - name: output
-        value: "$(params.outputfil)"
+        value: "$(params.outputfile)"
     - name: deploy-service-db-carts
       taskRef:
         name: cartsdb-svc
@@ -235,8 +235,8 @@ spec:
     - name: build-docker-orders
       taskRef:
         name: build-push-orders
-        runAfter:
-          - deploy-service-carts
+      runAfter:
+        - deploy-service-carts
       resources:
         inputs:
           - name: level3-project
@@ -303,8 +303,8 @@ spec:
     - name: build-docker-payment
       taskRef:
         name: build-push-payment
-        runAfter:
-          - deploy-service-orders
+      runAfter:
+        - deploy-service-orders
       resources:
         inputs:
           - name: level3-project
@@ -347,8 +347,8 @@ spec:
     - name: build-docker-catalogue
       taskRef:
         name: build-push-catalogue
-        runAfter:
-          - deploy-service-payment 
+      runAfter:
+        - deploy-service-payment 
       resources:
         inputs:
           - name: level3-project
@@ -367,8 +367,8 @@ spec:
     - name: build-docker-cataloguedb
       taskRef:
         name: build-push-cataloguedb
-        runAfter:
-          - deploy-service-payment
+      runAfter:
+        - deploy-service-payment
       resources:
         inputs:
           - name: level3-project
@@ -508,18 +508,6 @@ spec:
         value: "$(params.user-manifestfile)"
       - name: output
         value: "$(params.outputfile)"
-    - name: deploy-pods-user
-      taskRef:
-        name: user-deploy
-      runAfter:
-        - deploy-service-db-user
-      params:
-      - name: action
-        value: "$(params.kubeaction)"
-      - name: manifest
-        value: "$(params.user-manifestfile)"
-      - name: output
-        value: "$(params.outputfile)"
     - name: deploy-service-user
       taskRef:
         name: user-svc
@@ -535,8 +523,8 @@ spec:
     - name: build-docker-frontend
       taskRef:
         name: build-push-frontend
-        runAfter:
-          - deploy-service-user 
+      runAfter:
+        - deploy-service-user 
       resources:
         inputs:
           - name: level3-project
