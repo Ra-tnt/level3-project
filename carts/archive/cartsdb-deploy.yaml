@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: carts-db
-  namespace: cicd
   labels:
     app: carts-db
 spec:

@@ -1,0 +1,15 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: deploy-test
+spec:
+  resources:
+    inputs:
+    - name: level3-project
+      type: git
+  steps:
+  - name: runscript
+    image: bash:latest
+    script: |
+      #!/usr/bin/env bash
+      . /workspace/level3-project/e2e-js-test/runner.sh
