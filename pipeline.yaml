@@ -608,6 +608,14 @@ spec:
         name: deploy-test
       runAfter:
         - build-docker-test
+      resources:
+        inputs:
+          - name: level3-project
+            resource: level3-project
+      params:
+      - name: IMAGE
+        value: "$(params.test-imagename)"
+
 
   results:
     - name: shipping-imagedigest

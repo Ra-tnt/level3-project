@@ -1,9 +1,10 @@
-all: serviceAccount ship cart catalogues order users payments frontend pipeline
+all: serviceAccount ship cart catalogues order users payments frontend test pipeline
 
 pipeline:
 	kubectl apply -f pipeline.yaml -f pipelineRun.yaml -n test
 	tkn pipelinerun logs --last -f -n test
-
+test:
+	kubectl apply -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -n test
 
 serviceAccount:
 	kubectl apply -f secrets.yaml -f serviceAccount.yaml -f clusterRole.yaml -f roleBinding.yaml -n test
