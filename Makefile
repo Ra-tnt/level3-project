@@ -1,8 +1,8 @@
-all-test: serviceAccount ship cart catalogues order users payments frontend test pipeline
+all-test: serviceAccount ship cart catalogues order users payments frontend test release
 
 release:
-	kubectl apply -f pipeline.yaml -f pipelineRun.yaml -n production
-	tkn pipelinerun logs --last -f -n test -n production
+	kubectl apply -f pipeline.yaml -f pipelineRun.yaml -n test
+	tkn pipelinerun logs --last -f -n test
 test:
 	kubectl apply -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -n test
 
@@ -62,7 +62,7 @@ payments-delete:
 	kubectl delete -f payment/tekton-tasks/docker/task.yaml -f payment/tekton-tasks/deploy/payment-deploy.yaml -f payment/tekton-tasks/deploy/payment-svc.yaml -n test
 
 frontend:
-	kubectl apply -f front-end/tekton-tasks/docker/task.yaml -f front-end/tekton-tasks/deploy/ingresstask.yaml -f front-end/tekton-tasks/deploy/frontend-deploy.yaml -f front-end/tekton-tasks/deploy/frontend-svc.yaml -f front-end/Pipeline.yaml -f PipelineRun.yaml -n test
+	kubectl apply -f front-end/tekton-tasks/docker/task.yaml -f front-end/tekton-tasks/deploy/ingresstask.yaml -f front-end/tekton-tasks/deploy/frontend-deploy.yaml -f front-end/tekton-tasks/deploy/frontend-svc.yaml -f front-end/Pipeline.yaml -f front-end/PipelineRun.yaml -n test
 
 frontend-delete:
 	kubectl delete -f front-end/tekton-tasks/docker/task.yaml -f front-end/tekton-tasks/deploy/ingresstask.yaml -f front-end/tekton-tasks/deploy/frontend-deploy.yaml -f front-end/tekton-tasks/deploy/frontend-svc.yaml -f front-end/Pipeline.yaml -f PipelineRun.yaml -n test
