@@ -4,8 +4,18 @@
 
 The aim of the level 3 project is to give you something to demonstrate to potential employers. You will use this as a showcase for the skills you have developed and the tools you have mastered.
 
-## Objectives
-You are to demonstrate a near production-ready K8S platform hosting the [Weaveworks Shock Shop demo](https://github.com/microservices-demo). Your platform must build and deploy your fork of that project.
+## Files structure
+###In the root directory you will find the files: 
+#### *Secret.yaml (contains token to push the images and don't worry about the exposed password it has been changed)
+#### *clusterrole.yaml
+#### *serviceAccount.yaml
+#### *roleBinding.yaml
+#### *Makefile
+
+Each microservice has its own directory.
+Inside each microservice's directory there is a "tekton-tasks" directory that contain the tasks.
+In the root directory of the microservice you will find the pipeline and pipelineRun files.
+
 
 ## Method
 You will work alone, but you must track your tasks in trello and move them through a kanban process. You will capture am image of your trello board at the start and end of each day and add it to the file 'tasks.md' in the documentation folder.
