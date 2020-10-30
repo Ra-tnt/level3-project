@@ -4,7 +4,7 @@ function login() {
     $.ajax({
         url: "login",
         type: "GET",
-        async: true,
+        async: false,
         success: function (data, textStatus, jqXHR) {
             $("#login-message").html('<div class="alert alert-success">Login successful.</div>');
             console.log('posted: ' + textStatus);
