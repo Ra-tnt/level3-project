@@ -20,3 +20,15 @@ Each microservice has its own directory. Each of which has a "tekton-tasks" dire
 ### Prod for production
 ### Logging for elf
 ### Monitoring for grafana
+
+## Makefile
+### [microservice]-test : are to run the microservice and the test after (not all tested but seems working)
+### release: to release pods into production
+### install-monitoring: to install grafana and prometheus
+### install- logging: to install elf
+### all: to run all microservices in test namespace and then run the test
+
+## Note
+### there is another make file inside the k8s-sandbox which is used for the cluster and so on.
+### the directory called Mynotes got screenshots of kanban dashboard and some notes.
+
