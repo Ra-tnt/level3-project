@@ -51,13 +51,13 @@ frontend-test: frontend
 
 release:
 	kubectl apply -f secrets.yaml -f serviceAccProd.yaml -f clusterRole.yaml -f roleBindingprod.yaml -n prod
-	kubectl apply -f shipping/tekton-tasks/docker/task.yaml -f shipping/tekton-tasks/deploy/shipping-deploy.yaml -f shipping/tekton-tasks/deploy/shipping-svc.yaml -n prod
-	kubectl apply -f carts/tekton-tasks/docker/task.yaml -f carts/tekton-tasks/deploy/carts-deploy.yaml -f carts/tekton-tasks/deploy/carts-svc.yaml -f carts/tekton-tasks/deploy/cartsdb-deploy.yaml -f carts/tekton-tasks/deploy/cartsdb-svc.yaml -n prod
-	kubectl apply -f catalogue/tekton-tasks/docker/taskdb.yaml -f catalogue/tekton-tasks/docker/task.yaml -f catalogue/tekton-tasks/deploy/cataloguedb-deploy.yaml -f catalogue/tekton-tasks/deploy/cataloguedb-svc.yaml -f catalogue/tekton-tasks/deploy/catalogue-deploy.yaml -f catalogue/tekton-tasks/deploy/catalogue-svc.yaml -n prod
-	kubectl apply -f orders/tekton-tasks/docker/task.yaml -f orders/tekton-tasks/deploy/orders-deploy.yaml -f orders/tekton-tasks/deploy/orders-svc.yaml -f orders/tekton-tasks/deploy/ordersdb-deploy.yaml -f orders/tekton-tasks/deploy/ordersdb-svc.yaml -n prod
-	kubectl apply -f user/tekton-tasks/docker/taskdb.yaml -f user/tekton-tasks/docker/task.yaml -f user/tekton-tasks/deploy/userdb-deploy.yaml -f user/tekton-tasks/deploy/userdb-svc.yaml -f user/tekton-tasks/deploy/user-deploy.yaml -f user/tekton-tasks/deploy/user-svc.yaml -n prod
-	kubectl apply -f payment/tekton-tasks/docker/task.yaml -f payment/tekton-tasks/deploy/payment-deploy.yaml -f payment/tekton-tasks/deploy/payment-svc.yaml -n prod
-	kubectl apply -f front-end/tekton-tasks/docker/task.yaml -f front-end/tekton-tasks/deploy/ingresstask.yaml -f front-end/tekton-tasks/deploy/frontend-deploy.yaml -f front-end/tekton-tasks/deploy/frontend-svc.yaml -n prod
+	kubectl apply -f shipping/tekton-tasks/deploy/shipping-deploy.yaml -f shipping/tekton-tasks/deploy/shipping-svc.yaml -n prod
+	kubectl apply -f carts/tekton-tasks/deploy/carts-deploy.yaml -f carts/tekton-tasks/deploy/carts-svc.yaml -f carts/tekton-tasks/deploy/cartsdb-deploy.yaml -f carts/tekton-tasks/deploy/cartsdb-svc.yaml -n prod
+	kubectl apply -f catalogue/tekton-tasks/deploy/cataloguedb-deploy.yaml -f catalogue/tekton-tasks/deploy/cataloguedb-svc.yaml -f catalogue/tekton-tasks/deploy/catalogue-deploy.yaml -f catalogue/tekton-tasks/deploy/catalogue-svc.yaml -n prod
+	kubectl apply -f orders/tekton-tasks/deploy/orders-deploy.yaml -f orders/tekton-tasks/deploy/orders-svc.yaml -f orders/tekton-tasks/deploy/ordersdb-deploy.yaml -f orders/tekton-tasks/deploy/ordersdb-svc.yaml -n prod
+	kubectl apply -f user/tekton-tasks/deploy/userdb-deploy.yaml -f user/tekton-tasks/deploy/userdb-svc.yaml -f user/tekton-tasks/deploy/user-deploy.yaml -f user/tekton-tasks/deploy/user-svc.yaml -n prod
+	kubectl apply -f payment/tekton-tasks/deploy/payment-deploy.yaml -f payment/tekton-tasks/deploy/payment-svc.yaml -n prod
+	kubectl apply -f front-end/tekton-tasks/deploy/ingresstask.yaml -f front-end/tekton-tasks/deploy/frontend-deploy.yaml -f front-end/tekton-tasks/deploy/frontend-svc.yaml -n prod
 	kubectl apply -f pipeline.yaml -f pipelineRun.yaml -n prod
 	tkn pipelinerun logs --last -f -n prod
 
@@ -130,7 +130,7 @@ delete-monitoring: delete-prometheus delete-grafana
 
 install-prometheus:
 	echo "Monitoring: install-grafana" | tee -a output.log
-	helm install -n monitoring -f platform/monitoring/prometheus-values.yaml prometheus prometheus-community/prometheus| tee -a output.log
+	helm install -n monitoring -f k8s-sandbox/platform/monitoring/prometheus-values.yaml prometheus prometheus-community/prometheus| tee -a output.log
 
 delete-prometheus:
 	echo "Monitoring: delete-prometheus" | tee -a output.log
@@ -138,7 +138,7 @@ delete-prometheus:
 
 install-grafana:
 	echo "Monitoring: install-grafana" | tee -a output.log
-	helm install grafana grafana/grafana -n monitoring -f platform/monitoring/grafana-values.yaml | tee -a output.log
+	helm install grafana grafana/grafana -n monitoring -f k8s-sandbox/platform/monitoring/grafana-values.yaml | tee -a output.log
 
 delete-grafana:
 	echo "Monitoring: delete-grafana" | tee -a output.log
@@ -146,3 +146,7 @@ delete-grafana:
 
 install-logging:
 	./logging-monitoring/elf.sh
+
+delete-logging:
+	kubectl delete ns logging
+	kubectl create ns logging
