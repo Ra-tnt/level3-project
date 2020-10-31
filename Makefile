@@ -1,19 +1,22 @@
-all-test: shipping-test carts-test catalogue-test orders-test users-test payment-test frontend-test
+all: ship cart catalogues order users payments frontend test
 
 shipping-test: ship
-	tkn pipelinerun logs --last -f -n test 
+	kubectl wait --namespace test --for=condition=succeeded --timeout=800s pipelinerun/shipping-pipelinerun
+	#tkn pipelinerun logs --last -f -n test 
 	kubectl apply -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -f e2e-js-test/Pipeline.yaml -f e2e-js-test/PipelineRun.yaml -n test
 	tkn pipelinerun logs --last -f -n test
 	kubectl delete -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -f e2e-js-test/Pipeline.yaml -f e2e-js-test/PipelineRun.yaml -n test
 
-carts-test: carts
-	tkn pipelinerun logs --last -f -n test 
+carts-test: cart
+	kubectl wait --namespace test --for=condition=succeeded --timeout=800s pipelinerun/carts-pipelinerun	
+	#tkn pipelinerun logs --last -f -n test 
 	kubectl apply -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -f e2e-js-test/Pipeline.yaml -f e2e-js-test/PipelineRun.yaml -n test
 	tkn pipelinerun logs --last -f -n test
 	kubectl delete -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -f e2e-js-test/Pipeline.yaml -f e2e-js-test/PipelineRun.yaml -n test
 
 catalogue-test: catalogues
-	tkn pipelinerun logs --last -f -n test 
+	kubectl wait --namespace test --for=condition=succeeded --timeout=800s pipelinerun/catalogue-pipelinerun
+	#tkn pipelinerun logs --last -f -n test 
 	kubectl apply -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -f e2e-js-test/Pipeline.yaml -f e2e-js-test/PipelineRun.yaml -n test
 	tkn pipelinerun logs --last -f -n test
 	kubectl delete -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -f e2e-js-test/Pipeline.yaml -f e2e-js-test/PipelineRun.yaml -n test
@@ -33,15 +36,15 @@ users-test: users
 	kubectl delete -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -f e2e-js-test/Pipeline.yaml -f e2e-js-test/PipelineRun.yaml -n test
 
 payment-test: payments
-	#tkn pipelinerun logs --last -f -n test 
 	kubectl wait --namespace test --for=condition=succeeded --timeout=800s pipelinerun/payment-pipelinerun
+	#tkn pipelinerun logs --last -f -n test 
 	kubectl apply -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -f e2e-js-test/Pipeline.yaml -f e2e-js-test/PipelineRun.yaml -n test 
 	tkn pipelinerun logs --last -f -n test
 	kubectl delete -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -f e2e-js-test/Pipeline.yaml -f e2e-js-test/PipelineRun.yaml -n test
 
 frontend-test: frontend
+	kubectl wait --namespace test --for=condition=succeeded --timeout=800s pipelinerun/frontend-pipelinerun
 	#tkn pipelinerun logs --last -f -n test
-	kubectl wait --namespace test --for=condition=succeeded --timeout=800s pipelinerun/frontend-pipelinerun 
 	kubectl apply -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -f e2e-js-test/Pipeline.yaml -f e2e-js-test/PipelineRun.yaml -n test
 	tkn pipelinerun logs --last -f -n test
 	kubectl delete -f e2e-js-test/tekton-tasks/docker/task.yaml -f e2e-js-test/tekton-tasks/deploy/task.yaml -f e2e-js-test/Pipeline.yaml -f e2e-js-test/PipelineRun.yaml -n test
