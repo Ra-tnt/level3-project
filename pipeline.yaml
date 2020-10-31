@@ -9,14 +9,6 @@ spec:
   params:
     - name: shipping-imagename
       default: "raghadq/shipping:testing"
-    - name: shipping-dockerfilepath
-      default: /workspace/level3-project/shipping/Dockerfile
-    - name: shipping-contextpath
-      default: /workspace/level3-project/shipping
-    - name: extraargsvalue
-      default: ""
-    - name: builderimage
-      default: gcr.io/kaniko-project/executor:latest
     - name: kubeaction
       default: apply
     - name: outputfile
@@ -28,10 +20,6 @@ spec:
 
     - name: carts-imagename
       default: "raghadq/carts:testing"
-    - name: carts-dockerfilepath
-      default: /workspace/level3-project/carts/Dockerfile
-    - name: carts-contextpath
-      default: /workspace/level3-project/carts
     - name: carts-manifestfile
       default:
     - name: carts-manifestfilesvc
@@ -42,10 +30,6 @@ spec:
 
     - name: orders-imagename
       default: "raghadq/orders"
-    - name: orders-dockerfilepath
-      default: /workspace/level3-project/orders/Dockerfile
-    - name: orders-contextpath
-      default: /workspace/level3-project/orders
     - name: orders-manifestfile
       default:
     - name: orders-manifestfilesvc
@@ -57,10 +41,6 @@ spec:
 
     - name: payment-imagename
       default: "raghadq/payment"
-    - name: payment-dockerfilepath
-      default: /workspace/level3-project/payment/Dockerfile
-    - name: payment-contextpath
-      default: /workspace/level3-project/payment
     - name: payment-manifestfile
       default:
     - name: payment-manifestfilesvc
@@ -68,16 +48,8 @@ spec:
 
     - name: catalogue-imagename
       default: "raghadq/catalogue"
-    - name: catalogue-dockerfilepath
-      default: /workspace/level3-project/catalogue/Dockerfile
-    - name: catalogue-contextpath
-      default: /workspace/level3-project/catalogue
     - name: catalogue-imagenamedb
       default: "raghadq/catalogue-db"
-    - name: catalogue-dockerfilepathdb
-      default: /workspace/level3-project/catalogue/catalogue-db/Dockerfile
-    - name: catalogue-contextpathdb
-      default: /workspace/level3-project/catalogue/catalogue-db
     - name: catalogue-manifestfile
       default:
     - name: catalogue-manifestfilesvc
@@ -89,16 +61,8 @@ spec:
    
     - name: user-imagename
       default: "raghadq/user"
-    - name: user-dockerfilepath
-      default: /workspace/level3-project/user/Dockerfile
-    - name: user-contextpath
-      default: /workspace/level3-project/user
     - name: user-imagenamedb
       default: "raghadq/user-db"
-    - name: user-dockerfilepathdb
-      default: /workspace/level3-project/user/user-db/Dockerfile
-    - name: user-contextpathdb
-      default: /workspace/level3-project/user/user-db
     - name: user-manifestfile
       default:
     - name: user-manifestfilesvc
@@ -110,10 +74,6 @@ spec:
 
     - name: frontend-imagename
       default: "raghadq/frontend"
-    - name: frontend-dockerfilepath
-      default: /workspace/level3-project/front-end/Dockerfile
-    - name: frontend-contextpath
-      default: /workspace/level3-project/front-end
     - name: frontend-manifestfile
       default:
     - name: frontend-manifestfilesvc
@@ -123,35 +83,11 @@ spec:
 
     - name: test-imagename
       default: "raghadq/e2e-test"
-    - name: test-dockerfilepath
-      default: /workspace/level3-project/e2e-js-test/Dockerfile
-    - name: test-contextpath
-      default: /workspace/level3-project/e2e-js-test
 
   tasks:
-    - name: build-docker-shipping
-      taskRef:
-        name: build-push-shipping
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.shipping-imagename)"
-      - name: DOCKERFILE
-        value: "$(params.shipping-dockerfilepath)"
-      - name: CONTEXT
-        value: "$(params.shipping-contextpath)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
     - name: deploy-pods-shipping
       taskRef:
         name: shipping-deploy
-      runAfter: 
-        - build-docker-shipping
       params:
       - name: action
         value: "$(params.kubeaction)"
@@ -171,31 +107,11 @@ spec:
         value: "$(params.shipping-manifestfilesvc)"
       - name: output
         value: "$(params.outputfile)"
-    - name: build-docker-carts
-      taskRef:
-        name: build-push-carts
-      runAfter:
-        - deploy-service-shipping
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.carts-imagename)"
-      - name: DOCKERFILE
-        value: "$(params.carts-dockerfilepath)"
-      - name: CONTEXT
-        value: "$(params.carts-contextpath)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
     - name: deploy-pods-db-carts
       taskRef:
         name: cartsdb-deploy
       runAfter:
-        - build-docker-carts
+        - deploy-service-shipping
       params:
       - name: action
         value: "$(params.kubeaction)"
@@ -239,31 +155,11 @@ spec:
         value: "$(params.carts-manifestfilesvc)"
       - name: output
         value: "$(params.outputfile)"
-    - name: build-docker-orders
-      taskRef:
-        name: build-push-orders
-      runAfter:
-        - deploy-service-carts
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.orders-imagename)"
-      - name: DOCKERFILE
-        value: "$(params.orders-dockerfilepath)"
-      - name: CONTEXT
-        value: "$(params.orders-contextpath)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
     - name: deploy-pods-db-orders
       taskRef:
         name: ordersdb-deploy
       runAfter:
-        - build-docker-orders
+        - deploy-service-carts
       params:
       - name: action
         value: "$(params.kubeaction)"
@@ -307,31 +203,11 @@ spec:
         value: "$(params.orders-manifestfilesvc)"
       - name: output
         value: "$(params.outputfile)"
-    - name: build-docker-payment
-      taskRef:
-        name: build-push-payment
-      runAfter:
-        - deploy-service-orders
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.payment-imagename)"
-      - name: DOCKERFILE
-        value: "$(params.payment-dockerfilepath)"
-      - name: CONTEXT
-        value: "$(params.payment-contextpath)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
     - name: deploy-pods-payment
       taskRef:
         name: payment-deploy
       runAfter: 
-        - build-docker-payment
+        - deploy-service-orders
       params:
       - name: action
         value: "$(params.kubeaction)"
@@ -351,51 +227,11 @@ spec:
         value: "$(params.payment-manifestfilesvc)"
       - name: output
         value: "$(params.outputfile)"
-    - name: build-docker-catalogue
-      taskRef:
-        name: build-push-catalogue
-      runAfter:
-        - deploy-service-payment 
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.catalogue-imagename)"
-      - name: DOCKERFILE
-        value: "$(params.catalogue-dockerfilepath)"
-      - name: CONTEXT
-        value: "$(params.catalogue-contextpath)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
-    - name: build-docker-cataloguedb
-      taskRef:
-        name: build-push-cataloguedb
-      runAfter:
-        - deploy-service-payment
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.catalogue-imagenamedb)"
-      - name: DOCKERFILE
-        value: "$(params.catalogue-dockerfilepathdb)"
-      - name: CONTEXT
-        value: "$(params.catalogue-contextpathdb)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
     - name: deploy-pods-db-catalogue
       taskRef:
         name: cataloguedb-deploy
       runAfter:
-        - build-docker-cataloguedb
+        - deploy-service-payment
       params:
       - name: action
         value: "$(params.kubeaction)"
@@ -439,51 +275,11 @@ spec:
         value: "$(params.catalogue-manifestfilesvc)"
       - name: output
         value: "$(params.outputfile)"
-    - name: build-docker-userdb
-      taskRef:
-        name: build-push-userdb
-      runAfter:
-        - deploy-service-catalogue
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.user-imagenamedb)"
-      - name: DOCKERFILE
-        value: "$(params.user-dockerfilepathdb)"
-      - name: CONTEXT
-        value: "$(params.user-contextpathdb)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
-    - name: build-docker-user
-      taskRef:
-        name: build-push-user
-      runAfter:
-        - deploy-service-catalogue
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.user-imagename)"
-      - name: DOCKERFILE
-        value: "$(params.user-dockerfilepath)"
-      - name: CONTEXT
-        value: "$(params.user-contextpath)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
     - name: deploy-pods-db-user
       taskRef:
         name: userdb-deploy
       runAfter:
-        - build-docker-user
+        - deploy-service-catalogue
       params:
       - name: action
         value: "$(params.kubeaction)"
@@ -527,31 +323,11 @@ spec:
         value: "$(params.user-manifestfilesvc)"
       - name: output
         value: "$(params.outputfile)"
-    - name: build-docker-frontend
-      taskRef:
-        name: build-push-frontend
-      runAfter:
-        - deploy-service-user 
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.frontend-imagename)"
-      - name: DOCKERFILE
-        value: "$(params.frontend-dockerfilepath)"
-      - name: CONTEXT
-        value: "$(params.frontend-contextpath)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
     - name: deploy-pods-frontend
       taskRef:
         name: frontend-deploy
       runAfter:
-        - build-docker-frontend
+        - deploy-service-user
       params:
       - name: action
         value: "$(params.kubeaction)"
@@ -583,69 +359,4 @@ spec:
         value: "$(params.manifestfileingress)"
       - name: output
         value: "$(params.outputfile)"
-    - name: build-docker-test
-      taskRef:
-        name: build-push-test
-      runAfter:
-        - deploy-ingress
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.test-imagename)"
-      - name: DOCKERFILE
-        value: "$(params.test-dockerfilepath)"
-      - name: CONTEXT
-        value: "$(params.test-contextpath)"
-      - name: EXTRA_ARGS
-        value: "$(params.extraargsvalue)"
-      - name: BUILDER_IMAGE
-        value: "$(params.builderimage)"
-    - name: deploy-e2e
-      taskRef:
-        name: deploy-test
-      runAfter:
-        - build-docker-test
-      resources:
-        inputs:
-          - name: level3-project
-            resource: level3-project
-      params:
-      - name: IMAGE
-        value: "$(params.test-imagename)"
-
-
-  results:
-    - name: shipping-imagedigest
-      description: result of image digest
-      value: $(tasks.build-docker-shipping.results.IMAGE-DIGEST)
-    - name: carts--imagedigest
-      description: result of image digest
-      value: $(tasks.build-docker-carts.results.IMAGE-DIGEST)
-    - name: orders-imagedigest
-      description: result of image digest
-      value: $(tasks.build-docker-orders.results.IMAGE-DIGEST)
-    - name: payment-imagedigest
-      description: result of image digest 
-      value: $(tasks.build-docker-payment.results.IMAGE-DIGEST)
-    - name: catalogue-imagedigest
-      description: result of image digest
-      value: $(tasks.build-docker-catalogue.results.IMAGE-DIGEST)
-    - name: catalogue-imagedigestdb
-      description: result of image digest db
-      value: $(tasks.build-docker-cataloguedb.results.IMAGE-DIGEST)
-    - name: user-imagedigestdb
-      description: result of image digest db
-      value: $(tasks.build-docker-userdb.results.IMAGE-DIGEST)      
-    - name: user-imagedigest
-      description: result of image digest
-      value: $(tasks.build-docker-user.results.IMAGE-DIGEST)
-    - name: frontend-imagedigest
-      description: result of image digest
-      value: $(tasks.build-docker-frontend.results.IMAGE-DIGEST)
-    - name: test-imagedigest
-      description: result of image digest
-      value: $(tasks.build-docker-test.results.IMAGE-DIGEST)
 
