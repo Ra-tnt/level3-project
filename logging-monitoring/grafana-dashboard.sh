@@ -5,7 +5,6 @@
 #
 # The script assumes that basic authentication is configured
 # (change the login credentials with `LOGIN`).
-#
 # DASHBOARD_DIRECTORY represents the path to the directory
 # where the JSON files corresponding to the dashboards exist.
 # The default location is relative to the execution of the
@@ -13,6 +12,7 @@
 #
 # URL specifies the URL of the Grafana instance.
 #
+
 
 set -o errexit
 
