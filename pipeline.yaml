@@ -255,7 +255,7 @@ spec:
       taskRef:
         name: catalogue-deploy
       runAfter:
-        - build-docker-catalogue
+        - deploy-service-db-catalogue
       params:
       - name: action
         value: "$(params.kubeaction)"

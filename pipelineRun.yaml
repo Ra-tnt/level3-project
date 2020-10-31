@@ -5,7 +5,7 @@ metadata:
 spec:
   pipelineRef:
     name: microservicedemo-pipeline
-  serviceAccountName: sa
+  serviceAccountName: saprod
   resources:
   - name: level3-project
     resourceSpec:
